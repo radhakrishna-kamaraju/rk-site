@@ -19,7 +19,6 @@ Search `site/index.html` for `LINK_` and replace each with the real address:
 | `LINK_INDUSTRIAL_AI_INDEX` | The assessment app once it is live on its subdomain |
 | `LINK_NEWSLETTER` | The buildwithRKAI newsletter page |
 | `LINK_PHYSICAL_AI_LOG` | The Physical AI learning log post |
-| `LINK_LINKEDIN` | LinkedIn profile |
 
 ## Run locally
 
