@@ -7,7 +7,7 @@ Personal site for Radhakrishna Kamaraju (RK). One static page, served by Caddy i
 - `site/index.html`: the whole page, styles included.
 - `site/fonts/`: self-hosted Space Grotesk and IBM Plex Mono (no third-party font requests).
 - `Dockerfile`, `Caddyfile`, `docker-compose.yml`: the container. It publishes no ports; the Traefik proxy already on the VPS routes the domain to it and issues the HTTPS certificate.
-- `.github/workflows/deploy.yml`: on every push to `main`, the VPS pulls and rebuilds.
+- Deploys are manual for now: on the VPS, `cd ~/rk-site && git pull && docker compose up -d --build`.
 
 ## Links still to fill in
 
@@ -20,7 +20,6 @@ Search `site/index.html` for `LINK_` and replace each with the real address:
 | `LINK_NEWSLETTER` | The buildwithRKAI newsletter page |
 | `LINK_PHYSICAL_AI_LOG` | The Physical AI learning log post |
 | `LINK_LINKEDIN` | LinkedIn profile |
-| `LINK_GITHUB` | GitHub profile |
 
 ## Run locally
 
@@ -34,7 +33,6 @@ On the VPS, Traefik serves it at https://radhakrishnakamaraju.com. To preview on
 
 1. Clone this repository to `~/rk-site`.
 2. Run `docker compose up -d --build`.
-3. In the GitHub repository settings, add the secrets `VPS_HOST`, `VPS_USER` and `VPS_SSH_KEY` (a deploy key that can log in to the VPS).
 
 ## Not in this version
 
