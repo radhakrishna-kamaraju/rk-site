@@ -34,3 +34,8 @@ On the VPS, Traefik serves it at https://radhakrishnakamaraju.com. To preview on
 - Newsletter links: the notes row says "coming soon" and the footer link is removed until buildwithRKAI is published.
 - The "ask the site" assistant (needs a small backend; planned next).
 - Photo in the photography section.
+
+## Résumé PDF
+
+The public résumé is `site/Radhakrishna-Kamaraju-Resume.pdf`, generated from `resume/resume.html`.
+To update it: edit `resume/resume.html`, then run `python3 resume/build.py` (needs `pip install playwright` and `playwright install chromium`), and commit both files.
