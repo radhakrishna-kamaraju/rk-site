@@ -92,6 +92,26 @@ section{padding:56px 0}
 .foot{margin-top:40px;padding:40px 0 56px;border-top:2px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
 .foot .name{font-size:20px;font-weight:700}
 .foot .tag{font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:8px}
+
+.ask{padding-top:8px}
+.ask .box{background:var(--card);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:20px;border:3px solid var(--line)}
+.ask .intro{font-size:18px;line-height:1.5;color:var(--body);max-width:640px}
+.ask form{display:flex;flex-wrap:wrap;gap:12px}
+.ask input{flex:1 1 280px;min-height:56px;font:inherit;font-size:18px;color:var(--text);background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:0 18px}
+.ask input::placeholder{color:var(--muted)}
+.ask input:focus{outline:3px solid var(--accent);outline-offset:3px;border-color:var(--accent)}
+.ask button{font:inherit;cursor:pointer}
+.ask .go{min-height:56px;font-size:18px;font-weight:700;background:var(--accent);color:var(--bg);border:0;border-radius:14px;padding:0 28px}
+.ask .go:hover{filter:brightness(1.08)}
+.ask .go[disabled]{opacity:.6;cursor:wait}
+.ask .chips{display:flex;flex-wrap:wrap;gap:12px}
+.ask .chip{font-size:16px;color:var(--body);background:none;border:2px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px}
+.ask .chip:hover{border-color:var(--accent);color:var(--accent)}
+.ask .answer{min-height:0}
+.ask .answer .who{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--accent);margin-bottom:10px}
+.ask .answer .text{font-size:19px;line-height:1.55;color:var(--text);max-width:720px}
+.ask .answer .text a{color:var(--accent);text-decoration:underline;word-break:break-all}
+.ask .fine{font-family:var(--mono);font-size:13px;letter-spacing:1px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -101,6 +121,7 @@ section{padding:56px 0}
 <header class="top">
   <a class="mark" href="#top" aria-label="RK, back to top">RK</a>
   <nav aria-label="Main">
+    <a href="#ask">Ask</a>
     <a href="#projects">Projects</a>
     <a href="#notes">Notes</a>
     <a href="#path">Journey</a>
@@ -118,6 +139,27 @@ section{padding:56px 0}
     <a class="btn ghost" href="#notes">Read my notes</a>
   </div>
 </div>
+
+<section id="ask" class="ask" aria-labelledby="ask-h">
+  <div class="head">
+    <p class="label">ASK / THIS SITE</p>
+    <h2 id="ask-h">Curious about something? Ask.</h2>
+  </div>
+  <div class="box">
+    <p class="intro">A small AI assistant that knows my projects and notes. It answers only from what is on this site, and it is not me.</p>
+    <form id="askForm" autocomplete="off">
+      <input id="askInput" type="text" maxlength="300" placeholder="e.g. What is Clawdia?" aria-label="Your question" required>
+      <button class="go" id="askGo" type="submit">Ask</button>
+    </form>
+    <div class="chips" role="group" aria-label="Suggested questions">
+      <button class="chip" type="button">What is Clawdia?</button>
+      <button class="chip" type="button">Where should a manufacturer start with AI?</button>
+      <button class="chip" type="button">What is Personal OS?</button>
+    </div>
+    <div class="answer" id="askAnswer" aria-live="polite"></div>
+    <p class="fine">AI answers can be wrong. Questions are not stored.</p>
+  </div>
+</section>
 
 <section id="projects" aria-labelledby="projects-h">
   <div class="head">
@@ -194,5 +236,47 @@ section{padding:56px 0}
 </footer>
 
 </div>
+<script>
+(function(){
+  var form=document.getElementById("askForm"),input=document.getElementById("askInput"),
+      go=document.getElementById("askGo"),out=document.getElementById("askAnswer");
+  var LINKEDIN="https://www.linkedin.com/in/radhakrishna-kamaraju/";
+  function show(text,isError){
+    out.textContent="";
+    var who=document.createElement("div");who.className="who";
+    who.textContent=isError?"ASSISTANT":"ASSISTANT (AI)";
+    var body=document.createElement("div");body.className="text";
+    text.split(/(https:\/\/[^\s]+)/g).forEach(function(part){
+      if(/^https:\/\//.test(part)){
+        var m=part.match(/^(.*?)([.,;:!?]*)$/),a=document.createElement("a");
+        a.href=m[1];a.rel="noopener";a.textContent=m[1];body.appendChild(a);
+        if(m[2])body.appendChild(document.createTextNode(m[2]));
+      }else body.appendChild(document.createTextNode(part));
+    });
+    out.appendChild(who);out.appendChild(body);
+  }
+  function ask(q){
+    q=q.trim();if(q.length<2)return;
+    go.disabled=true;go.textContent="Thinking…";show("One moment.",false);
+    fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})})
+      .then(function(r){
+        if(r.status===429)throw new Error("limit");
+        if(!r.ok)throw new Error("down");
+        return r.json();
+      })
+      .then(function(d){show(d.answer,false)})
+      .catch(function(e){
+        show(e.message==="limit"
+          ?"The assistant has reached its question limit for now. Please try again later, or find RK on LinkedIn: "+LINKEDIN
+          :"The assistant is unavailable right now. You can find RK on LinkedIn: "+LINKEDIN,true);
+      })
+      .finally(function(){go.disabled=false;go.textContent="Ask"});
+  }
+  form.addEventListener("submit",function(e){e.preventDefault();ask(input.value)});
+  document.querySelectorAll(".ask .chip").forEach(function(c){
+    c.addEventListener("click",function(){input.value=c.textContent;ask(c.textContent)});
+  });
+})();
+</script>
 </body>
 </html>
