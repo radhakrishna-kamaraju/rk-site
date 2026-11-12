@@ -1,0 +1,19 @@
+services:
+  rk-site:
+    build: .
+    container_name: rk-site
+    restart: unless-stopped
+    # No published ports: the Traefik proxy already running on the VPS
+    # routes the domain to this container and issues the HTTPS certificate.
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.rk-site.loadbalancer.server.port=80
+      # HTTPS
+      - traefik.http.routers.rk-site.rule=Host(`radhakrishnakamaraju.com`) || Host(`www.radhakrishnakamaraju.com`)
+      - traefik.http.routers.rk-site.entrypoints=websecure
+      - traefik.http.routers.rk-site.tls.certresolver=letsencrypt
+      # HTTP -> HTTPS redirect
+      - traefik.http.routers.rk-site-http.rule=Host(`radhakrishnakamaraju.com`) || Host(`www.radhakrishnakamaraju.com`)
+      - traefik.http.routers.rk-site-http.entrypoints=web
+      - traefik.http.routers.rk-site-http.middlewares=rk-site-https
+      - traefik.http.middlewares.rk-site-https.redirectscheme.scheme=https

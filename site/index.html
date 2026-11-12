@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radhakrishna Kamaraju</title>
+<meta name="description" content="RK builds AI agents and shares what he learns: projects, notes and lessons from twenty years in automotive IT.">
+<meta property="og:title" content="Radhakrishna Kamaraju">
+<meta property="og:description" content="I build AI agents and share what I learn.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%23F2A33A'%3ERK%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Space Grotesk";font-weight:400;font-display:swap;src:url("fonts/space-grotesk-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;font-display:swap;src:url("fonts/space-grotesk-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:700;font-display:swap;src:url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+
+:root{
+  --bg:#0F1B2D; --text:#F4F1EA; --muted:#A9B4C4; --body:#C9D2DE;
+  --card:#17283F; --line:#2A3C57; --accent:#F2A33A;
+  --sans:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--text);text-decoration:none}
+a:hover{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:6px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:16px;background:var(--accent);color:var(--bg);padding:12px 16px;border-radius:10px;z-index:10}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+@media (max-width:560px){.wrap{padding:0 20px}}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding:24px 0}
+.mark{font-family:var(--mono);font-weight:500;font-size:18px;letter-spacing:2px;color:var(--accent);padding:12px 0}
+.top nav,.foot nav{display:flex;flex-wrap:wrap;gap:0 28px;font-size:17px}
+.top nav a,.foot nav a{padding:12px 0}
+
+.label{font-family:var(--mono);font-size:15px;letter-spacing:3px;color:var(--muted);margin:0}
+.label.accent{color:var(--accent)}
+h1,h2,h3,p{margin:0}
+
+.hero{padding:72px 0 88px;display:flex;flex-direction:column;gap:28px}
+.hero h1{font-weight:700;font-size:clamp(40px,6.4vw,92px);line-height:1.04;letter-spacing:-0.02em;max-width:980px}
+.hero h1 span{color:var(--accent)}
+.hero p.lead{font-size:clamp(19px,1.7vw,24px);line-height:1.5;color:var(--body);max-width:720px}
+.actions{display:flex;flex-wrap:wrap;gap:16px;padding-top:8px}
+.btn{font-size:18px;padding:16px 28px;border-radius:14px;font-weight:700;background:var(--accent);color:var(--bg)}
+.btn:hover{color:var(--bg);filter:brightness(1.08)}
+.btn.ghost{background:none;color:var(--text);font-weight:500;border:2px solid var(--line);padding:14px 26px}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent);filter:none}
+
+section{padding:56px 0}
+.head{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.head h2{font-size:clamp(30px,3.6vw,52px);letter-spacing:-0.02em;line-height:1.08}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.card{background:var(--card);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:16px;border:3px solid transparent}
+.card.lead{border-color:var(--accent)}
+.card .status{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--accent)}
+.card .status.quiet{color:var(--muted)}
+.card h3{font-size:30px;letter-spacing:-0.01em}
+.card p{font-size:18px;line-height:1.5;color:var(--body)}
+.card a{margin-top:auto;font-weight:500;font-size:17px;color:var(--accent);padding:12px 0}
+.card a:hover{text-decoration:underline}
+
+.notes{display:flex;flex-direction:column;border-bottom:2px solid var(--line)}
+.notes a{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 32px;padding:24px 0;border-top:2px solid var(--line)}
+.notes .when{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted);flex:0 0 240px}
+.notes .what{font-size:24px;font-weight:500;flex:1 1 320px}
+
+.path{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px 20px;list-style:none;margin:0;padding:0}
+.path li{display:flex;flex-direction:column;gap:12px}
+.path li::before{content:"";height:8px;border-radius:4px;background:var(--accent)}
+.path li.now::before{background:var(--line)}
+.path .when{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted)}
+.path li.now .when{color:var(--accent)}
+.path .role{font-size:22px;font-weight:700}
+.path .desc{font-size:16px;line-height:1.5;color:var(--body)}
+
+.beyond{max-width:720px;display:flex;flex-direction:column;gap:16px}
+.beyond h2{font-size:clamp(28px,3vw,44px);letter-spacing:-0.01em;line-height:1.1}
+.beyond p{font-size:18px;line-height:1.5;color:var(--body)}
+.beyond a{font-weight:500;font-size:17px;color:var(--accent);padding:12px 0;align-self:flex-start}
+.beyond a:hover{text-decoration:underline}
+
+.foot{margin-top:40px;padding:40px 0 56px;border-top:2px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
+.foot .name{font-size:20px;font-weight:700}
+.foot .tag{font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+
+<header class="top">
+  <a class="mark" href="#top" aria-label="RK, back to top">RK</a>
+  <nav aria-label="Main">
+    <a href="#projects">Projects</a>
+    <a href="#notes">Notes</a>
+    <a href="#path">Journey</a>
+    <a href="#beyond">Beyond work</a>
+  </nav>
+</header>
+
+<main id="main">
+<div class="hero" id="top">
+  <p class="label accent">RADHAKRISHNA KAMARAJU &middot; PARIS</p>
+  <h1>Hello, I'm RK. I build AI agents and <span>share what I learn.</span></h1>
+  <p class="lead">Welcome. After about twenty years in automotive IT, I now spend my time building with AI. Here you'll find the projects I'm working on, the lessons I picked up along the way, and notes for anyone starting the same journey.</p>
+  <div class="actions">
+    <a class="btn" href="#projects">Explore my projects</a>
+    <a class="btn ghost" href="#notes">Read my notes</a>
+  </div>
+</div>
+
+<section id="projects" aria-labelledby="projects-h">
+  <div class="head">
+    <p class="label">01 / PROJECTS</p>
+    <h2 id="projects-h">Projects I'm working on.</h2>
+  </div>
+  <div class="cards">
+    <article class="card lead">
+      <div class="status">LIVE &middot; SELF-HOSTED</div>
+      <h3>Clawdia</h3>
+      <p>My personal AI assistant. She runs on my own server and chats with me on Telegram. I documented the whole build over ten days.</p>
+      <a href="LINK_CLAWDIA_SERIES">Read the build story &rarr;</a>
+    </article>
+    <article class="card">
+      <div class="status">LIVE DEMO</div>
+      <h3>Industrial AI Index</h3>
+      <p>An AI readiness assessment for manufacturers. Answer a few questions and receive a report tailored to your organisation.</p>
+      <a href="LINK_INDUSTRIAL_AI_INDEX">Try the assessment &rarr;</a>
+    </article>
+    <article class="card">
+      <div class="status quiet">IN PROGRESS</div>
+      <h3>Personal OS</h3>
+      <p>A small team of AI agents that help me run my days. One new agent joins each month, starting with a social media manager.</p>
+      <a href="LINK_NEWSLETTER">Follow along &rarr;</a>
+    </article>
+  </div>
+</section>
+
+<section id="notes" aria-labelledby="notes-h">
+  <div class="head">
+    <p class="label">02 / NOTES</p>
+    <h2 id="notes-h">Notes from the journey.</h2>
+  </div>
+  <div class="notes">
+    <a href="LINK_NEWSLETTER"><span class="when">NOV 2026 &middot; NEWSLETTER</span><span class="what">buildwithRKAI, issue 1</span></a>
+    <a href="LINK_PHYSICAL_AI_LOG"><span class="when">NOV 2026 &middot; LEARNING LOG</span><span class="what">Physical AI: what I studied, tested and still don't understand</span></a>
+    <a href="LINK_CLAWDIA_SERIES"><span class="when">OCT 2026 &middot; SERIES</span><span class="what">Building a personal AI assistant in ten days</span></a>
+  </div>
+</section>
+
+<section id="path" aria-labelledby="path-h">
+  <div class="head">
+    <p class="label">03 / JOURNEY</p>
+    <h2 id="path-h">My path so far.</h2>
+  </div>
+  <ol class="path">
+    <li><span class="when">BEFORE 2020</span><span class="role">Automotive IT</span><span class="desc">Where I learned how large programmes really work.</span></li>
+    <li><span class="when">2020 TO 2025</span><span class="role">Delivery lead</span><span class="desc">Ran delivery for a Japanese automotive OEM's European headquarters.</span></li>
+    <li><span class="when">2025</span><span class="role">AI enablement</span><span class="desc">Moved into AI for manufacturing: offerings and partnerships.</span></li>
+    <li><span class="when">2026</span><span class="role">Transformation office</span><span class="desc">Embedded in digital transformation at a global powertrain JV.</span></li>
+    <li class="now"><span class="when">NOW</span><span class="role">Building and sharing</span><span class="desc">Building my own agents and sharing what I learn.</span></li>
+  </ol>
+</section>
+
+<section id="beyond" aria-labelledby="beyond-h">
+  <div class="beyond">
+    <p class="label">04 / BEYOND WORK</p>
+    <h2 id="beyond-h">Beyond work: photography.</h2>
+    <p>Fashion photography is my other craft. It taught me to look carefully before I build. The work lives at Apertures by RK.</p>
+    <a href="https://aperturesbyrk.com" rel="noopener">See the photography &rarr;</a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div>
+    <div class="name">Radhakrishna Kamaraju</div>
+    <div class="tag">buildwithRKAI</div>
+  </div>
+  <nav aria-label="Elsewhere">
+    <a href="LINK_NEWSLETTER">Newsletter</a>
+    <a href="LINK_LINKEDIN">LinkedIn</a>
+    <a href="LINK_GITHUB">GitHub</a>
+  </nav>
+</footer>
+
+</div>
+</body>
+</html>
