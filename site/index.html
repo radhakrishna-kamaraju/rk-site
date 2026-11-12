@@ -256,7 +256,7 @@ section{padding:56px 0}
     out.appendChild(who);out.appendChild(body);
   }
   function ask(q){
-    q=q.trim();if(q.length<2)return;
+    q=q.trim();if(q.length<2||go.disabled)return;
     go.disabled=true;go.textContent="Thinking…";show("One moment.",false);
     fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})})
       .then(function(r){
