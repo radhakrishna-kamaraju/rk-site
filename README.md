@@ -15,10 +15,6 @@ Search `site/index.html` for `LINK_` and replace each with the real address:
 
 | Placeholder | What it should point to |
 |---|---|
-| `LINK_CLAWDIA_SERIES` | The ten-day Clawdia series (first post or a collection page) |
-| `LINK_INDUSTRIAL_AI_INDEX` | The assessment app once it is live on its subdomain |
-| `LINK_NEWSLETTER` | The buildwithRKAI newsletter page |
-| `LINK_PHYSICAL_AI_LOG` | The Physical AI learning log post |
 
 ## Run locally
 
@@ -35,5 +31,6 @@ On the VPS, Traefik serves it at https://radhakrishnakamaraju.com. To preview on
 
 ## Not in this version
 
+- Newsletter links: the notes row says "coming soon" and the footer link is removed until buildwithRKAI is published.
 - The "ask the site" assistant (needs a small backend; planned next).
 - Photo in the photography section.

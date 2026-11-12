@@ -66,11 +66,13 @@ section{padding:56px 0}
 .card p{font-size:18px;line-height:1.5;color:var(--body)}
 .card a{margin-top:auto;font-weight:500;font-size:17px;color:var(--accent);padding:12px 0}
 .card a:hover{text-decoration:underline}
+.card .later{margin-top:auto;font-size:17px;color:var(--muted);padding:12px 0}
 
 .notes{display:flex;flex-direction:column;border-bottom:2px solid var(--line)}
-.notes a{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 32px;padding:24px 0;border-top:2px solid var(--line)}
+.notes a,.notes .soon{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 32px;padding:24px 0;border-top:2px solid var(--line)}
 .notes .when{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted);flex:0 0 240px}
 .notes .what{font-size:24px;font-weight:500;flex:1 1 320px}
+.notes .soon .what{color:var(--muted)}
 
 .path{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px 20px;list-style:none;margin:0;padding:0}
 .path li{display:flex;flex-direction:column;gap:12px}
@@ -127,19 +129,19 @@ section{padding:56px 0}
       <div class="status">LIVE &middot; SELF-HOSTED</div>
       <h3>Clawdia</h3>
       <p>My personal AI assistant. She runs on my own server and chats with me on Telegram. I documented the whole build over ten days.</p>
-      <a href="LINK_CLAWDIA_SERIES">Read the build story &rarr;</a>
+      <a href="https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/" rel="noopener">Read the build story &rarr;</a>
     </article>
     <article class="card">
-      <div class="status">LIVE DEMO</div>
+      <div class="status quiet">BEING REBUILT</div>
       <h3>Industrial AI Index</h3>
       <p>An AI readiness assessment for manufacturers. Answer a few questions and receive a report tailored to your organisation.</p>
-      <a href="LINK_INDUSTRIAL_AI_INDEX">Try the assessment &rarr;</a>
+      <span class="later">New version arriving here soon</span>
     </article>
     <article class="card">
       <div class="status quiet">IN PROGRESS</div>
       <h3>Personal OS</h3>
       <p>A small team of AI agents that help me run my days. One new agent joins each month, starting with a social media manager.</p>
-      <a href="LINK_NEWSLETTER">Follow along &rarr;</a>
+      <a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">Follow along on LinkedIn &rarr;</a>
     </article>
   </div>
 </section>
@@ -150,9 +152,9 @@ section{padding:56px 0}
     <h2 id="notes-h">Notes from the journey.</h2>
   </div>
   <div class="notes">
-    <a href="LINK_NEWSLETTER"><span class="when">NOV 2026 &middot; NEWSLETTER</span><span class="what">buildwithRKAI, issue 1</span></a>
-    <a href="LINK_PHYSICAL_AI_LOG"><span class="when">NOV 2026 &middot; LEARNING LOG</span><span class="what">Physical AI: what I studied, tested and still don't understand</span></a>
-    <a href="LINK_CLAWDIA_SERIES"><span class="when">OCT 2026 &middot; SERIES</span><span class="what">Building a personal AI assistant in ten days</span></a>
+    <div class="soon"><span class="when">COMING SOON &middot; NEWSLETTER</span><span class="what">buildwithRKAI, issue 1</span></div>
+    <a href="https://lnkd.in/p/erqigS6D" rel="noopener"><span class="when">NOV 2026 &middot; LEARNING LOG</span><span class="what">Physical AI: what I studied, tested and still don't understand</span></a>
+    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/" rel="noopener"><span class="when">OCT 2026 &middot; SERIES</span><span class="what">Building a personal AI assistant in ten days</span></a>
   </div>
 </section>
 
@@ -186,7 +188,6 @@ section{padding:56px 0}
     <div class="tag">buildwithRKAI</div>
   </div>
   <nav aria-label="Elsewhere">
-    <a href="LINK_NEWSLETTER">Newsletter</a>
     <a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">LinkedIn</a>
     <a href="https://github.com/radhakrishna-kamaraju" rel="noopener">GitHub</a>
   </nav>
