@@ -7,8 +7,6 @@
 @font-face{font-family:"Space Grotesk";font-weight:400;src:url("../site/fonts/space-grotesk-latin-400-normal.woff2") format("woff2")}
 @font-face{font-family:"Space Grotesk";font-weight:500;src:url("../site/fonts/space-grotesk-latin-500-normal.woff2") format("woff2")}
 @font-face{font-family:"Space Grotesk";font-weight:700;src:url("../site/fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
-@font-face{font-family:"IBM Plex Mono";font-weight:400;src:url("../site/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"IBM Plex Mono";font-weight:500;src:url("../site/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
 @page{size:A4;margin:11mm 13mm 9mm}
 :root{--ink:#0F1B2D;--body:#2B3647;--muted:#5B6778;--line:#D5DBE4;--accent:#F2A33A;--head:#A35A00;--tag:#FBEFD9}
 *{box-sizing:border-box}
@@ -20,7 +18,7 @@ a{color:inherit;text-decoration:none}
 .top{display:grid;grid-template-columns:1fr 52mm;gap:7mm;align-items:end;padding-bottom:8pt;border-bottom:2.2pt solid var(--accent)}
 h1{font-size:25pt;font-weight:700;letter-spacing:-.015em;color:var(--ink);line-height:1.02}
 .tag{font-size:9.6pt;color:var(--muted);margin-top:5pt;max-width:112mm;line-height:1.4}
-.contact{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;white-space:nowrap;color:var(--ink);line-height:1.65;text-align:left}
+.contact{font-size:8.6pt;white-space:nowrap;color:var(--ink);line-height:1.65;text-align:left}
 .contact span{display:block}
 
 .cols{display:grid;grid-template-columns:1fr 52mm;gap:7mm;margin-top:8pt}
@@ -33,34 +31,34 @@ h2{font-size:10.6pt;font-weight:700;color:var(--head);margin:0 0 5pt}
 .proj:first-of-type{margin-top:0}
 .ph{display:flex;justify-content:space-between;align-items:baseline;gap:8pt}
 h3{font-size:9.4pt;font-weight:700;color:var(--ink)}
-.ph .url{font-family:"IBM Plex Mono",monospace;font-size:7pt;color:var(--muted)}
+.ph .url{font-size:7.5pt;color:var(--muted)}
 .proj p{margin-top:1.2pt}
 .chips{display:flex;flex-wrap:wrap;gap:2.5pt 3.5pt;margin-top:2.6pt}
-.chips span{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;color:var(--head);background:var(--tag);border-radius:3pt;padding:.8pt 4pt}
+.chips span{font-size:7.5pt;color:var(--head);background:var(--tag);border-radius:3pt;padding:.8pt 4pt}
 
 /* experience */
 .job{margin-top:6pt;break-inside:avoid}
 .job:first-of-type{margin-top:0}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:8pt}
-.when{font-family:"IBM Plex Mono",monospace;font-size:7.2pt;color:var(--muted);white-space:nowrap}
-.org{font-size:8.3pt;color:var(--muted);margin:.4pt 0 1.5pt}
+.when{font-size:8.6pt;color:var(--muted);white-space:nowrap}
+.org{font-size:8.6pt;color:var(--muted);margin:.4pt 0 1.5pt}
 ul{list-style:none}
 li{position:relative;padding-left:9pt;margin-top:1.4pt}
 li::before{content:"";position:absolute;left:0;top:.62em;width:3.3pt;height:3.3pt;border-radius:50%;background:var(--accent)}
 
 .scope{margin:1.6pt 0 2.4pt}
 .roles{display:flex;flex-wrap:wrap;align-items:center;gap:2.5pt 3.5pt;margin:0 0 2.4pt}
-.roles b{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:6.6pt;letter-spacing:.08em;color:var(--muted);margin-right:2pt}
-.roles span{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;color:var(--head);background:var(--tag);border-radius:3pt;padding:.8pt 4pt}
+.roles b{font-weight:500;font-size:7.5pt;letter-spacing:.06em;color:var(--muted);margin-right:2pt}
+.roles span{font-size:7.5pt;color:var(--head);background:var(--tag);border-radius:3pt;padding:.8pt 4pt}
 li b{color:var(--ink);font-weight:700}
 /* sidebar */
 .grp{margin-top:7pt}
 .grp:first-of-type{margin-top:0}
-.grp h3{font-size:8.7pt}
-.grp h3 small{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:6.6pt;letter-spacing:.06em;color:var(--head);margin-left:3pt}
-.grp p{margin-top:1.4pt;font-size:8.4pt;line-height:1.42}
+.grp h3{font-size:8.6pt}
+.grp h3 small{font-weight:500;font-size:7.5pt;letter-spacing:.06em;color:var(--head);margin-left:3pt}
+.grp p{margin-top:1.4pt;font-size:8.6pt;line-height:1.42}
 .soft{color:var(--muted)}
-.ed p{margin-top:1.6pt;font-size:8.4pt}
+.ed p{margin-top:1.6pt}
 .ed b{color:var(--ink)}
 </style>
 </head>
@@ -113,7 +111,7 @@ li b{color:var(--ink);font-weight:700}
   <h2>Relevant Experience</h2>
 
   <div class="job">
-    <div class="row"><h3>PMO &amp; Digital Transformation Lead</h3><span class="when">03/2026 &ndash; Present</span></div>
+    <div class="row"><h3>PMO &amp; Digital Transformation Lead</h3><span class="when">March 2026 &ndash; Present</span></div>
     <p class="org">Tech Mahindra, embedded at a global automotive powertrain joint venture</p>
     <ul>
       <li>Lead PMO and digital transformation across a multi-entity joint venture, connecting IT synergy, governance and the transformation roadmap.</li>
@@ -122,7 +120,7 @@ li b{color:var(--ink);font-weight:700}
   </div>
 
   <div class="job">
-    <div class="row"><h3>AI Enablement &amp; Offerings Manager, Manufacturing</h3><span class="when">06/2025 &ndash; 02/2026</span></div>
+    <div class="row"><h3>AI Enablement &amp; Offerings Manager, Manufacturing</h3><span class="when">June 2025 &ndash; February 2026</span></div>
     <p class="org">Tech Mahindra</p>
     <ul>
       <li>Built AWS and NVIDIA partnerships to co-develop AI solutions for European manufacturers, and qualified AI use cases against quantified ROI.</li>
@@ -132,7 +130,7 @@ li b{color:var(--ink);font-weight:700}
   </div>
 
   <div class="job">
-    <div class="row"><h3>Customer Delivery Manager</h3><span class="when">2020 &ndash; 2025</span></div>
+    <div class="row"><h3>Customer Delivery Manager</h3><span class="when">April 2020 &ndash; June 2025</span></div>
     <p class="org">Tech Mahindra, for the European HQ of a Japanese automotive OEM</p>
     <p class="scope">Delivery lead accountable for IT services across Sales &amp; Marketing, Admin &amp; Finance and Aftersales: a portfolio of about &euro;10M total contract value, with teams of up to 120 across onsite and offshore, delivered with SAFe and waterfall.</p>
     <div class="roles"><b>KEY ROLES</b><span>Delivery lead</span><span>Programme governance</span><span>Business development &amp; RFPs</span><span>Team leadership</span><span>Single point of accountability</span></div>
