@@ -9,27 +9,27 @@
 @font-face{font-family:"Space Grotesk";font-weight:700;src:url("../site/fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
 @font-face{font-family:"IBM Plex Mono";font-weight:400;src:url("../site/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
 @font-face{font-family:"IBM Plex Mono";font-weight:500;src:url("../site/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
-@page{size:A4;margin:12mm 14mm 10mm}
+@page{size:A4;margin:11mm 13mm 9mm}
 :root{--ink:#0F1B2D;--body:#2B3647;--muted:#5B6778;--line:#D5DBE4;--accent:#F2A33A;--head:#A35A00;--tag:#FBEFD9}
 *{box-sizing:border-box}
 html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-body{margin:0;font-family:"Space Grotesk",system-ui,sans-serif;font-size:9pt;line-height:1.4;color:var(--body)}
+body{margin:0;font-family:"Space Grotesk",system-ui,sans-serif;font-size:8.6pt;line-height:1.38;color:var(--body)}
 h1,h2,h3,p,ul{margin:0;padding:0}
 a{color:inherit;text-decoration:none}
 
-.top{display:grid;grid-template-columns:1fr 56mm;gap:8mm;align-items:end;padding-bottom:8pt;border-bottom:2.2pt solid var(--accent)}
+.top{display:grid;grid-template-columns:1fr 52mm;gap:7mm;align-items:end;padding-bottom:8pt;border-bottom:2.2pt solid var(--accent)}
 h1{font-size:25pt;font-weight:700;letter-spacing:-.015em;color:var(--ink);line-height:1.02}
 .tag{font-size:9.6pt;color:var(--muted);margin-top:5pt;max-width:112mm;line-height:1.4}
 .contact{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;white-space:nowrap;color:var(--ink);line-height:1.65;text-align:left}
 .contact span{display:block}
 
-.cols{display:grid;grid-template-columns:1fr 56mm;gap:8mm;margin-top:9pt}
+.cols{display:grid;grid-template-columns:1fr 52mm;gap:7mm;margin-top:8pt}
 h2{font-size:10.6pt;font-weight:700;color:var(--head);margin:0 0 5pt}
-.col>section+section{margin-top:11pt}
+.col>section+section{margin-top:9pt}
 .sub{margin-top:0}
 
 /* projects */
-.proj{margin-top:6.5pt;break-inside:avoid}
+.proj{margin-top:5pt;break-inside:avoid}
 .proj:first-of-type{margin-top:0}
 .ph{display:flex;justify-content:space-between;align-items:baseline;gap:8pt}
 h3{font-size:9.4pt;font-weight:700;color:var(--ink)}
@@ -48,14 +48,19 @@ ul{list-style:none}
 li{position:relative;padding-left:9pt;margin-top:1.4pt}
 li::before{content:"";position:absolute;left:0;top:.62em;width:3.3pt;height:3.3pt;border-radius:50%;background:var(--accent)}
 
+.scope{margin:1.6pt 0 2.4pt}
+.roles{display:flex;flex-wrap:wrap;align-items:center;gap:2.5pt 3.5pt;margin:0 0 2.4pt}
+.roles b{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:6.6pt;letter-spacing:.08em;color:var(--muted);margin-right:2pt}
+.roles span{font-family:"IBM Plex Mono",monospace;font-size:6.8pt;color:var(--head);background:var(--tag);border-radius:3pt;padding:.8pt 4pt}
+li b{color:var(--ink);font-weight:700}
 /* sidebar */
 .grp{margin-top:7pt}
 .grp:first-of-type{margin-top:0}
 .grp h3{font-size:8.7pt}
 .grp h3 small{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:6.6pt;letter-spacing:.06em;color:var(--head);margin-left:3pt}
-.grp p{margin-top:1.4pt;font-size:8.6pt;line-height:1.42}
+.grp p{margin-top:1.4pt;font-size:8.4pt;line-height:1.42}
 .soft{color:var(--muted)}
-.ed p{margin-top:1.6pt;font-size:8.6pt}
+.ed p{margin-top:1.6pt;font-size:8.4pt}
 .ed b{color:var(--ink)}
 </style>
 </head>
@@ -81,25 +86,25 @@ li::before{content:"";position:absolute;left:0;top:.62em;width:3.3pt;height:3.3p
 
   <div class="proj">
     <div class="ph"><h3>Industrial AI Index</h3><span class="url">industrial-ai.radhakrishnakamaraju.com</span></div>
-    <p>Free AI-readiness assessment for manufacturers: a high-level or detailed questionnaire across four areas, scored and turned into a tailored report written by Claude. Built to be safe in public: answers validated on the server, prompt kept server-side, per-visitor and daily limits, nothing stored, and a rule-based fallback if the AI is unavailable.</p>
+    <p>Free AI-readiness assessment for manufacturers: a questionnaire across four areas, scored and turned into a tailored report written by Claude. Safe in public: server-side validation and prompt, per-visitor and daily limits, nothing stored, and a rule-based fallback if the AI is unavailable.</p>
     <div class="chips"><span>Claude API</span><span>Node.js</span><span>Docker</span><span>Playwright tests</span></div>
   </div>
 
   <div class="proj">
     <div class="ph"><h3>Clawdia</h3><span class="url">personal AI assistant</span></div>
-    <p>An assistant I run on my own server and talk to on Telegram. I documented the whole build in a ten-day public series, including what broke.</p>
+    <p>An assistant I run on my own server and talk to on Telegram, with the whole build documented in a ten-day public series.</p>
     <div class="chips"><span>OpenClaw</span><span>Telegram</span><span>Self-hosted</span><span>Docker</span></div>
   </div>
 
   <div class="proj">
     <div class="ph"><h3>Ask this site</h3><span class="url">assistant on my website</span></div>
-    <p>Answers visitor questions only from a curated knowledge file. It declines private or off-topic requests, ignores attempts to override its rules, strips any link not on an allow-list, and runs under rate limits and a spend cap.</p>
+    <p>Answers only from a curated knowledge file. Declines private or off-topic requests, ignores attempts to override its rules, strips unlisted links, and runs under rate limits and a spend cap.</p>
     <div class="chips"><span>Claude API</span><span>Prompt guardrails</span><span>Rate limiting</span></div>
   </div>
 
   <div class="proj">
     <div class="ph"><h3>Personal website and its pipeline</h3><span class="url">radhakrishnakamaraju.com</span></div>
-    <p>Site, assessment and assistant run as separate containers behind one HTTPS proxy, with push-to-deploy from public GitHub repositories. Built end to end with AI-assisted development, then tested in a real browser.</p>
+    <p>Site, assessment and assistant run as separate containers behind one HTTPS proxy, with push-to-deploy from GitHub. Built end to end with AI-assisted development and tested in a real browser.</p>
     <div class="chips"><span>GitHub</span><span>Traefik</span><span>Cloudflare</span><span>Linux VPS</span></div>
   </div>
 </section>
@@ -113,7 +118,6 @@ li::before{content:"";position:absolute;left:0;top:.62em;width:3.3pt;height:3.3p
     <ul>
       <li>Lead PMO and digital transformation across a multi-entity joint venture, connecting IT synergy, governance and the transformation roadmap.</li>
       <li>Designed the IT synergy and digital maturity frameworks used to prioritise investments.</li>
-      <li>Run the Microsoft tenant consolidation workstream: options, scoring and decision rights across three entities.</li>
     </ul>
   </div>
 
@@ -130,9 +134,13 @@ li::before{content:"";position:absolute;left:0;top:.62em;width:3.3pt;height:3.3p
   <div class="job">
     <div class="row"><h3>Customer Delivery Manager</h3><span class="when">2020 &ndash; 2025</span></div>
     <p class="org">Tech Mahindra, for the European HQ of a Japanese automotive OEM</p>
+    <p class="scope">Delivery lead accountable for IT services across Sales &amp; Marketing, Admin &amp; Finance and Aftersales: a portfolio of about &euro;10M total contract value, with teams of up to 120 across onsite and offshore, delivered with SAFe and waterfall.</p>
+    <div class="roles"><b>KEY ROLES</b><span>Delivery lead</span><span>Programme governance</span><span>Business development &amp; RFPs</span><span>Team leadership</span><span>Single point of accountability</span></div>
     <ul>
-      <li>Owned delivery, governance and RFPs for an account of about &euro;10M overall contract value, with a team of up to 120.</li>
-      <li>Grew the Aftersales SAP account from a minor enhancement into a fixed-price forecasting and replenishment win, then the S/4HANA Phase 1 win.</li>
+      <li><b>Owned the Aftersales SAP programme end to end,</b> delivery, governance and every RFP response.</li>
+      <li><b>Grew it from a &euro;20K change request into a strategic account.</b> Resolved long-standing incidents, delivered two major enhancements on time, then won a &euro;1M fixed-price forecasting and replenishment programme.</li>
+      <li>That led to an S/4HANA assessment and the win of Phase 1 of the Aftersales warehouse transformation, handed over to the SAP practice.</li>
+      <li><b>Led cloud modernisation</b> for the Total Customer Satisfaction function, re-platforming legacy applications onto AWS, Talend and Tableau.</li>
     </ul>
   </div>
 </section>
