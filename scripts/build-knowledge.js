@@ -42,9 +42,8 @@ function shipped() {
   const out = [];
   out.push('### Shipped log (what RK has shipped, improved, fixed and written, newest first)');
   out.push(`A dated log of RK's personal projects. Full page: ${BASE}/shipped/`);
-  // Anchors are dropped: the assistant strips '#' from answers, which would break such links.
   for (const e of L) {
-    out.push(`- ${e.date} [${e.tag}] ${e.title}: ${e.text}${e.link ? ' Link: ' + e.link.split('#')[0] : ''}`);
+    out.push(`- ${e.date} [${e.tag}] ${e.title}: ${e.text}${e.link ? ' Link: ' + e.link : ''}`);
   }
   return out.join('\n');
 }

@@ -51,4 +51,8 @@ window.SHIPPED = [
   { date: "2026-11-13", tag: "Wrote", title: "Case studies for all three repos",
     text: "Each repo now explains why it exists, how it is built, the design decisions and trade-offs, and what broke.",
     link: "https://github.com/radhakrishna-kamaraju", linkText: "See them on GitHub" },
+
+  { date: "2026-11-14", tag: "Fixed", title: "The assistant broke links with an anchor",
+    text: "Stripping markdown also removed the '#' inside links, so a link to a section of a page pointed nowhere. Allowed links are now set aside first, then put back. Found while building this log.",
+    link: "https://github.com/radhakrishna-kamaraju/rk-assistant#what-broke-and-whats-next", linkText: "The full story" },
 ];
