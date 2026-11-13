@@ -73,6 +73,9 @@ section{padding:56px 0}
 .notes .when{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted);flex:0 0 240px}
 .notes .what{font-size:24px;font-weight:500;flex:1 1 320px}
 .notes .soon .what{color:var(--muted)}
+.more{margin-top:20px}
+.more a{font-weight:500;font-size:17px;color:var(--accent);padding:12px 0;display:inline-block}
+.more a:hover{text-decoration:underline}
 
 .path{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px 20px;list-style:none;margin:0;padding:0}
 .path li{display:flex;flex-direction:column;gap:12px}
@@ -125,6 +128,7 @@ section{padding:56px 0}
   <nav aria-label="Main">
     <a href="#ask">Ask</a>
     <a href="#projects">Projects</a>
+    <a href="#shipped">Shipped</a>
     <a href="#notes">Notes</a>
     <a href="#path">Journey</a>
     <a href="#beyond">Beyond work</a>
@@ -158,6 +162,7 @@ section{padding:56px 0}
       <button class="chip" type="button">What is Clawdia?</button>
       <button class="chip" type="button">Where should a manufacturer start with AI?</button>
       <button class="chip" type="button">What is Personal OS?</button>
+      <button class="chip" type="button">What has RK shipped recently?</button>
     </div>
     <div class="answer" id="askAnswer" aria-live="polite"></div>
     <p class="fine">AI answers can be wrong. Questions are not stored.</p>
@@ -197,9 +202,20 @@ section{padding:56px 0}
   </div>
 </section>
 
+<section id="shipped" aria-labelledby="shipped-h">
+  <div class="head">
+    <p class="label">02 / SHIPPED</p>
+    <h2 id="shipped-h">Recently shipped.</h2>
+  </div>
+  <div class="notes" id="shippedList">
+    <a href="shipped/"><span class="when">DATED LOG</span><span class="what">What I've shipped, improved, fixed and written</span></a>
+  </div>
+  <p class="more"><a href="shipped/">See the full log &rarr;</a></p>
+</section>
+
 <section id="notes" aria-labelledby="notes-h">
   <div class="head">
-    <p class="label">02 / NOTES</p>
+    <p class="label">03 / NOTES</p>
     <h2 id="notes-h">Notes from the journey.</h2>
   </div>
   <div class="notes">
@@ -211,7 +227,7 @@ section{padding:56px 0}
 
 <section id="path" aria-labelledby="path-h">
   <div class="head">
-    <p class="label">03 / JOURNEY</p>
+    <p class="label">04 / JOURNEY</p>
     <h2 id="path-h">My path so far.</h2>
   </div>
   <ol class="path">
@@ -226,7 +242,7 @@ section{padding:56px 0}
 
 <section id="beyond" aria-labelledby="beyond-h">
   <div class="beyond">
-    <p class="label">04 / BEYOND WORK</p>
+    <p class="label">05 / BEYOND WORK</p>
     <h2 id="beyond-h">Beyond work: photography.</h2>
     <p>Fashion photography is my other craft. It taught me to look carefully before I build. The work lives at Apertures by RK.</p>
     <a href="https://aperturesbyrk.com" rel="noopener">See the photography &rarr;</a>
@@ -246,6 +262,21 @@ section{padding:56px 0}
 </footer>
 
 </div>
+<script src="shipped/data.js"></script>
+<script>
+(function(){
+  var L=(window.SHIPPED||[]).map(function(e,i){e._i=i;return e}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:b._i-a._i}).slice(0,3);
+  var box=document.getElementById("shippedList");if(!box||!L.length)return;
+  var M=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  box.textContent="";
+  L.forEach(function(e){
+    var p=e.date.split("-"),a=document.createElement("a");a.href="shipped/";
+    var w=document.createElement("span");w.className="when";w.textContent=(+p[2])+" "+M[+p[1]-1]+" "+p[0]+" \u00b7 "+e.tag.toUpperCase();
+    var t=document.createElement("span");t.className="what";t.textContent=e.title;
+    a.appendChild(w);a.appendChild(t);box.appendChild(a);
+  });
+})();
+</script>
 <script>
 (function(){
   var form=document.getElementById("askForm"),input=document.getElementById("askInput"),
