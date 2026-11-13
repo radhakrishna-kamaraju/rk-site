@@ -13,4 +13,7 @@
 
 	@fonts path /fonts/*
 	header @fonts Cache-Control "public, max-age=31536000, immutable"
+
+	@knowledge path /knowledge-site.md
+	header @knowledge Cache-Control "no-cache"
 }

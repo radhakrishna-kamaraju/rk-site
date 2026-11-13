@@ -18,6 +18,7 @@ Each runs as its own Docker container on one Linux VPS behind a shared Traefik p
 - `site/upskill/`: the AI Upskilling Planner. `index.html` is the page and `data.js` holds the 8-week content for the six role tracks. It runs entirely in the browser.
 - `site/fonts/`: self-hosted Space Grotesk and IBM Plex Mono (no third-party font requests).
 - `site/Radhakrishna-Kamaraju-Resume.pdf`: the public résumé, generated from `resume/resume.html`.
+- `scripts/build-knowledge.js`: run by the Docker build; writes `/knowledge-site.md` (plain text about the planner and other pages) from the real page content. The "Ask this site" assistant fetches it, so new pages and tools reach the assistant on deploy. When you add a page or tool, add it to this script.
 - `Dockerfile`, `Caddyfile`, `docker-compose.yml`: the container and its Traefik labels.
 
 ## Deploy
