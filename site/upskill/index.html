@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Upskilling Planner · Radhakrishna Kamaraju</title>
+<meta name="description" content="A free 8-week AI upskilling plan for busy IT professionals. Six questions, 2 to 3 hours a week, built around the work you already do.">
+<meta property="og:title" content="AI Upskilling Planner">
+<meta property="og:description" content="An 8-week AI plan that fits inside your job. Six questions, no sign-up.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%23F2A33A'%3ERK%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Space Grotesk";font-weight:400;font-display:swap;src:url("../fonts/space-grotesk-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;font-display:swap;src:url("../fonts/space-grotesk-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:700;font-display:swap;src:url("../fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url("../fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url("../fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+
+:root{
+  --bg:#0F1B2D; --text:#F4F1EA; --muted:#A9B4C4; --body:#C9D2DE;
+  --card:#17283F; --line:#2A3C57; --accent:#F2A33A;
+  --sans:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--text);text-decoration:none}
+a:hover{color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:6px}
+h1,h2,h3,p{margin:0}
+[hidden]{display:none!important}
+.wrap{max-width:880px;margin:0 auto;padding:0 32px}
+@media (max-width:560px){.wrap{padding:0 20px}}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding:24px 0}
+.mark{font-family:var(--mono);font-weight:500;font-size:18px;letter-spacing:2px;color:var(--accent);padding:12px 0}
+.top nav a{padding:12px 0;font-size:17px}
+.label{font-family:var(--mono);font-size:15px;letter-spacing:3px;color:var(--muted)}
+.label.accent{color:var(--accent)}
+
+.hero{padding:48px 0 40px;display:flex;flex-direction:column;gap:24px}
+.hero h1{font-weight:700;font-size:clamp(36px,5.6vw,68px);line-height:1.05;letter-spacing:-0.02em}
+.hero h1 span{color:var(--accent)}
+.lead{font-size:clamp(18px,1.7vw,22px);line-height:1.5;color:var(--body);max-width:680px}
+.facts{display:flex;flex-wrap:wrap;gap:12px;list-style:none;margin:0;padding:0}
+.facts li{font-family:var(--mono);font-size:14px;letter-spacing:1px;color:var(--body);border:2px solid var(--line);border-radius:999px;padding:8px 16px}
+
+button{font:inherit;cursor:pointer}
+.btn{font-size:18px;padding:16px 28px;border-radius:14px;font-weight:700;background:var(--accent);color:var(--bg);border:0;min-height:56px}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:none;color:var(--text);font-weight:500;border:2px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent);filter:none}
+.btn.small{font-size:16px;padding:12px 20px;min-height:48px}
+
+.box{background:var(--card);border-radius:24px;padding:32px;border:3px solid var(--line);display:flex;flex-direction:column;gap:24px}
+@media (max-width:560px){.box{padding:24px 20px}}
+.step{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted)}
+.dots{display:flex;gap:8px}
+.dots i{width:28px;height:6px;border-radius:3px;background:var(--line)}
+.dots i.on{background:var(--accent)}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}
+legend{font-size:clamp(24px,3vw,34px);font-weight:700;letter-spacing:-0.01em;line-height:1.15;padding:0;margin-bottom:8px}
+.hint{font-size:17px;line-height:1.5;color:var(--body)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt span{display:flex;flex-direction:column;gap:4px;min-height:56px;justify-content:center;border:2px solid var(--line);border-radius:14px;padding:12px 18px;font-size:18px;font-weight:500}
+.opt small{font-size:15px;font-weight:400;color:var(--muted)}
+.opt input:hover+span{border-color:var(--muted)}
+.opt input:checked+span{border-color:var(--accent);background:rgba(242,163,58,.1)}
+.opt input:focus-visible+span{outline:3px solid var(--accent);outline-offset:3px}
+.text{width:100%;min-height:56px;font:inherit;font-size:18px;color:var(--text);background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:0 18px}
+.text::placeholder{color:var(--muted)}
+.nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.plan{display:flex;flex-direction:column;gap:28px;padding:16px 0 40px}
+.plan h2{font-size:clamp(30px,4vw,48px);letter-spacing:-0.02em;line-height:1.08}
+.snap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.snap div{background:var(--card);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.snap .k{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--muted)}
+.snap .v{font-size:20px;font-weight:700}
+.note{font-size:17px;line-height:1.5;color:var(--body)}
+.rule{border:2px solid var(--accent);border-radius:16px;padding:16px 20px;font-size:17px;line-height:1.5}
+.rule b{color:var(--accent)}
+.prog{display:flex;flex-direction:column;gap:10px}
+.prog .bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+@media (prefers-reduced-motion:reduce){.prog .bar i{transition:none}}
+.prog .txt{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--muted)}
+
+.weeks{display:flex;flex-direction:column;gap:14px;list-style:none;margin:0;padding:0}
+.wk{background:var(--card);border-radius:20px;border:2px solid transparent;display:flex;align-items:flex-start}
+.wk.done{border-color:var(--line)}
+.wk.done .ttl{color:var(--muted);text-decoration:line-through}
+.tick{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:64px;min-height:72px;padding-top:4px}
+.tick input{width:26px;height:26px;accent-color:var(--accent);cursor:pointer}
+details{flex:1 1 auto;min-width:0}
+summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:22px 20px 22px 0}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:22px;color:var(--accent)}
+details[open] summary::after{content:"–"}
+.num{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--accent)}
+.ttl{font-size:21px;font-weight:700}
+.dur{font-family:var(--mono);font-size:12px;letter-spacing:1px;border-radius:999px;padding:4px 10px;border:1px solid var(--line);color:var(--body)}
+.dur.Perishable{border-color:#8a7a3a;color:#E9D48A}
+.dur.Durable{border-color:#3d6f9c;color:#9CC8EE}
+.dur.Enduring{border-color:#7a5aa0;color:#CDB4EC}
+.body{padding:0 24px 24px 0;display:flex;flex-direction:column;gap:16px}
+.row .k{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.row p{font-size:17px;line-height:1.55;color:var(--body)}
+.row.alt p{color:var(--text)}
+.key{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:15px;color:var(--muted);line-height:1.5}
+.key b{color:var(--body);font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.soon{font-family:var(--mono);font-size:13px;letter-spacing:1px;color:var(--muted)}
+.fine{font-family:var(--mono);font-size:13px;letter-spacing:1px;color:var(--muted);line-height:1.6}
+.foot{margin-top:24px;padding:32px 0 48px;border-top:2px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:16px;color:var(--muted)}
+.foot a{color:var(--body)}
+
+@media print{
+  :root{--bg:#fff;--text:#111;--muted:#555;--body:#222;--card:#fff;--line:#bbb;--accent:#9a5b00}
+  body{background:#fff}
+  .top,.actions,.foot,.tick,.prog,.hero,#quiz,.noprint{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .wk{border:1px solid #bbb;border-radius:8px;break-inside:avoid}
+  summary{padding:12px 16px}
+  summary::after{content:""!important}
+  .body{padding:0 16px 14px}
+  .snap div{border:1px solid #bbb}
+  .dur{color:#333!important;border-color:#999!important}
+  .wk.done .ttl{text-decoration:none;color:#111}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <a class="mark" href="../" aria-label="RK, back to home">RK</a>
+  <nav aria-label="Main"><a href="../">&larr; Back to the site</a></nav>
+</header>
+
+<main id="main">
+
+<div class="hero" id="intro">
+  <p class="label accent">AI UPSKILLING PLANNER &middot; FREE</p>
+  <h1>An 8-week AI plan that <span>fits inside your job.</span></h1>
+  <p class="lead">Most mid-career professionals have no spare time for courses. This plan uses the work you already do: each week has one short concept, one task on real work, and one thing you keep.</p>
+  <ul class="facts">
+    <li>6 QUESTIONS</li><li>ABOUT 90 SECONDS</li><li>2 TO 3 HOURS A WEEK</li><li>NO SIGN-UP</li>
+  </ul>
+  <div><button class="btn" id="start" type="button">Build my plan</button></div>
+</div>
+
+<section id="quiz" hidden aria-live="polite">
+  <form class="box" id="form" novalidate>
+    <div class="step"><span id="stepTxt">QUESTION 1 OF 6</span><span class="dots" id="dots" aria-hidden="true"></span></div>
+    <div id="q"></div>
+    <div class="nav">
+      <button class="btn ghost small" type="button" id="back">Back</button>
+      <button class="btn small" type="submit" id="next" disabled>Next</button>
+    </div>
+  </form>
+</section>
+
+<section class="plan" id="plan" hidden>
+  <div>
+    <p class="label accent" id="planLabel">YOUR PLAN</p>
+    <h2 id="planTitle" tabindex="-1"></h2>
+  </div>
+  <p class="note" id="planFocus"></p>
+  <div class="snap" id="snap"></div>
+  <p class="note" id="pace"></p>
+  <p class="rule"><b>One rule for all eight weeks:</b> never copy customer data into a personal AI account. Use only tools your employer or client has approved.</p>
+
+  <div class="prog">
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" id="bar"><i></i></div>
+    <div class="txt" id="progTxt">0 OF 8 WEEKS DONE</div>
+  </div>
+
+  <ol class="weeks" id="weeks"></ol>
+  <div id="extraWrap" hidden>
+    <p class="label" style="margin-bottom:14px">HANDS-ON EXTRAS &middot; OPTIONAL</p>
+    <p class="note" style="margin-bottom:14px">You still write code or tests, so these two weeks from the Builders track are worth adding when you have time.</p>
+    <ol class="weeks" id="extras"></ol>
+  </div>
+
+  <p class="key"><span><b>Perishable:</b> tied to today's tools, relearn often.</span><span><b>Durable:</b> a method that outlasts tools.</span><span><b>Enduring:</b> judgment and leadership.</span></p>
+  <p class="note" id="after"></p>
+
+  <div class="actions">
+    <button class="btn small" type="button" id="pdf">Download PDF</button>
+    <button class="btn ghost small" type="button" id="share">Copy share link</button>
+    <button class="btn ghost small" type="button" id="redo">Start again</button>
+  </div>
+  <div class="actions">
+    <button class="btn ghost small" type="button" disabled>Tailor this to me</button>
+    <span class="soon">COMING SOON: AN AI STEP THAT ADAPTS THE PLAN TO YOUR SITUATION</span>
+  </div>
+  <p class="fine noprint">Your answers and progress stay in this browser. Nothing is sent to a server. Progress may not survive clearing your browser data.</p>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>Built by <a href="../">Radhakrishna Kamaraju</a></span>
+  <a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">Feedback welcome on LinkedIn</a>
+</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var D=window.UPSKILL;
+  var ROLES=[["dev","Developer","builders"],["tester","Tester","quality"],["analyst","System analyst","analysts"],
+    ["tl","Team lead","delivery"],["pl","Project lead","delivery"],["pm","Project manager","delivery"],
+    ["arch","Architect","delivery"],["sm","Scrum master","delivery"],["pgm","Program manager","portfolio"],
+    ["dh","Delivery head","portfolio"],["ops","Ops or support","ops"]];
+  var QS=[
+    {key:"c",q:"Do you still write code or tests most weeks?",hint:"This decides whether your plan includes hands-on building.",
+     opts:[["1","Yes"],["0","No"]]},
+    {key:"r",q:"What is your role?",hint:"Pick the closest one.",opts:ROLES.map(function(r){return [r[0],r[1]]})},
+    {key:"h",q:"How many hours a week can you give this?",hint:"Be realistic. A plan you finish beats a plan you admire.",
+     opts:[["1","1 to 2 hours"],["2","2 to 3 hours"],["4","4 or more hours"]]},
+    {key:"u",q:"How often do you use AI tools at work today?",hint:"This sets the difficulty of each week's task.",
+     opts:[["b","Rarely","I have tried them a few times"],["s","Weekly","For some tasks"],["a","Daily","They are part of how I work"]]},
+    {key:"g",q:"What is your goal?",hint:"",
+     opts:[["rel","Stay relevant in my current role"],["lead","Lead AI work in my team or projects"],["move","Move into an AI-focused role"]]},
+    {key:"d",q:"Which domain do you work in?",hint:"Optional. For example: automotive, banking, retail.",text:true}
+  ];
+  var LEVEL={b:"Beginner",s:"Standard",a:"Advanced"};
+  var HOURS={"1":"1 to 2 hours a week","2":"2 to 3 hours a week","4":"4 or more hours a week"};
+  var PACE={"1":"At 1 to 2 hours a week, give each week's content two calendar weeks. The plan then runs about 16 weeks, which is fine.",
+    "2":"At 2 to 3 hours a week, one card a week fits. Block two or three 30-minute slots in your calendar now.",
+    "4":"With 4 or more hours a week, do each week's stretch as well, or finish in about five weeks."};
+  var AFTER={rel:"After week 8: repeat your strongest week's task every month on new work, and share one artefact with your team.",
+    lead:"After week 8: take your capstone to your manager and ask to run it as a small pilot with a measured result.",
+    move:"After week 8: publish two of your artefacts where recruiters and peers can see them, and build one more project end to end."};
+
+  var a={},i=0;
+  var $=function(id){return document.getElementById(id)};
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+
+  /* ---------- questions ---------- */
+  function drawQ(){
+    var Q=QS[i],box=$("q");box.textContent="";
+    $("stepTxt").textContent="QUESTION "+(i+1)+" OF "+QS.length;
+    var dots=$("dots");dots.textContent="";
+    QS.forEach(function(_,n){var d=el("i");if(n<=i)d.className="on";dots.appendChild(d)});
+    var fs=el("fieldset"),lg=el("legend",null,Q.q);fs.appendChild(lg);
+    if(Q.hint)fs.appendChild(el("p","hint",Q.hint));
+    if(Q.text){
+      var t=el("input","text");t.type="text";t.maxLength=40;t.placeholder="e.g. automotive";t.value=a.d||"";
+      t.setAttribute("aria-label",Q.q);t.addEventListener("input",function(){a.d=t.value});
+      fs.appendChild(t);
+    }else{
+      var g=el("div","opts");
+      Q.opts.forEach(function(o){
+        var lab=el("label","opt"),inp=el("input");inp.type="radio";inp.name=Q.key;inp.value=o[0];
+        if(a[Q.key]===o[0])inp.checked=true;
+        inp.addEventListener("change",function(){a[Q.key]=o[0];$("next").disabled=false});
+        var sp=el("span",null,o[1]);if(o[2])sp.appendChild(el("small",null,o[2]));
+        lab.appendChild(inp);lab.appendChild(sp);g.appendChild(lab);
+      });
+      fs.appendChild(g);
+    }
+    box.appendChild(fs);
+    $("next").disabled=!Q.text&&!a[Q.key];
+    $("next").textContent=i===QS.length-1?"Show my plan":"Next";
+    $("back").textContent=i===0?"Cancel":"Back";
+  }
+  function show(which){["intro","quiz","plan"].forEach(function(s){$(s).hidden=s!==which})}
+
+  $("start").addEventListener("click",function(){i=0;show("quiz");drawQ();$("quiz").scrollIntoView()});
+  $("back").addEventListener("click",function(){if(i===0){show("intro");return}i--;drawQ()});
+  $("form").addEventListener("submit",function(e){
+    e.preventDefault();
+    if(i<QS.length-1){i++;drawQ();return}
+    a.d=(a.d||"").trim();
+    history.replaceState(null,"","?"+query());
+    drawPlan(true);
+  });
+
+  /* ---------- plan ---------- */
+  function query(){
+    var p=new URLSearchParams();["c","r","h","u","g"].forEach(function(k){p.set(k,a[k])});
+    if(a.d)p.set("d",a.d);return p.toString();
+  }
+  function valid(){
+    return (a.c==="0"||a.c==="1")&&ROLES.some(function(r){return r[0]===a.r})&&HOURS[a.h]&&LEVEL[a.u]&&AFTER[a.g];
+  }
+  function card(w,num,key,done,onTick){
+    var li=el("li","wk"+(done?" done":""));
+    var tick=el("div","tick"),cb=el("input");cb.type="checkbox";cb.checked=!!done;
+    cb.setAttribute("aria-label","Mark "+num.toLowerCase()+" as done");
+    cb.addEventListener("change",function(){li.classList.toggle("done",cb.checked);onTick(key,cb.checked)});
+    tick.appendChild(cb);li.appendChild(tick);
+    var d=el("details"),s=el("summary");
+    s.appendChild(el("span","num",num));s.appendChild(el("span","ttl",w[1]));s.appendChild(el("span","dur "+w[5],w[5].toUpperCase()));
+    d.appendChild(s);
+    var b=el("div","body");
+    function row(k,txt,alt){var r=el("div","row"+(alt?" alt":""));r.appendChild(el("div","k",k));r.appendChild(el("p",null,txt));b.appendChild(r)}
+    row("CONCEPT · 20 MIN",w[2]);
+    if(a.u==="b"){row("YOUR TASK · START HERE",w[6],true);row("FULL VERSION · WHEN READY",w[3])}
+    else{row("YOUR TASK · 60 TO 90 MIN",w[3],true);if(a.u==="a"||a.h==="4")row("STRETCH",w[7])}
+    row("KEEP",w[4]);
+    d.appendChild(b);li.appendChild(d);return li;
+  }
+  function drawPlan(focus){
+    var role=ROLES.filter(function(r){return r[0]===a.r})[0],tk=role[2],T=D.tracks[tk];
+    var pkey="upskill:"+tk,done=store(pkey)||{};
+    $("planTitle").textContent=T.name+" track";
+    $("planLabel").textContent="YOUR PLAN · "+role[1].toUpperCase();
+    $("planFocus").textContent="Weeks 1 and 2 are the common core. Weeks 3 to 8 focus on: "+T.focus.charAt(0).toLowerCase()+T.focus.slice(1);
+    var snap=$("snap");snap.textContent="";
+    [["LEVEL",LEVEL[a.u]],["TIME",HOURS[a.h]],["YOU WILL KEEP","8 work artefacts"]].concat(a.d?[["DOMAIN",a.d]]:[]).forEach(function(p){
+      var d=el("div");d.appendChild(el("span","k",p[0]));d.appendChild(el("span","v",p[1]));snap.appendChild(d)});
+    $("pace").textContent=PACE[a.h];
+    $("after").textContent=AFTER[a.g];
+    var weeks=D.core.concat(T.weeks),list=$("weeks");list.textContent="";
+    function upd(){
+      var n=weeks.filter(function(w){return done["w"+w[0]]}).length;
+      $("bar").firstChild.style.width=(n/8*100)+"%";$("bar").setAttribute("aria-valuenow",n);
+      $("progTxt").textContent=n+" OF 8 WEEKS DONE"+(n===8?" · WELL DONE":"");
+    }
+    function onTick(k,v){done[k]=v;store(pkey,done);upd()}
+    weeks.forEach(function(w){list.appendChild(card(w,"WEEK "+w[0],"w"+w[0],done["w"+w[0]],onTick))});
+    var first=list.querySelector(".wk:not(.done) details");if(first)first.open=true;
+    var ex=$("extras");ex.textContent="";
+    var showEx=a.c==="1"&&tk!=="builders";$("extraWrap").hidden=!showEx;
+    if(showEx)D.tracks.builders.weeks.slice(0,2).forEach(function(w,n){ex.appendChild(card(w,"EXTRA "+(n+1),"x"+n,done["x"+n],onTick))});
+    upd();show("plan");
+    if(focus){$("planTitle").focus();$("plan").scrollIntoView()}
+  }
+
+  $("pdf").addEventListener("click",function(){window.print()});
+  var wasOpen=[];
+  window.addEventListener("beforeprint",function(){wasOpen=[];document.querySelectorAll("#plan details").forEach(function(d){wasOpen.push(d.open);d.open=true})});
+  window.addEventListener("afterprint",function(){document.querySelectorAll("#plan details").forEach(function(d,n){d.open=wasOpen[n]})});
+  $("share").addEventListener("click",function(){
+    var b=$("share"),url=location.origin+location.pathname+"?"+query();
+    function ok(){b.textContent="Link copied";setTimeout(function(){b.textContent="Copy share link"},2000)}
+    function fallback(){var t=el("input");t.value=url;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){b.textContent="Copy the address bar"}t.remove()}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(ok,fallback);else fallback();
+  });
+  $("redo").addEventListener("click",function(){history.replaceState(null,"",location.pathname);i=0;show("quiz");drawQ();$("quiz").scrollIntoView()});
+
+  /* ---------- open from a shared link ---------- */
+  var p=new URLSearchParams(location.search);
+  ["c","r","h","u","g"].forEach(function(k){if(p.get(k))a[k]=p.get(k)});
+  a.d=(p.get("d")||"").slice(0,40);
+  if(valid())drawPlan(false);else a={};
+})();
+</script>
+</body>
+</html>
