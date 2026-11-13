@@ -303,8 +303,9 @@ details[open] summary::after{content:"–"}
     var b=el("div","body");
     function row(k,txt,alt){var r=el("div","row"+(alt?" alt":""));r.appendChild(el("div","k",k));r.appendChild(el("p",null,txt));b.appendChild(r)}
     row("CONCEPT · 20 MIN",w[2]);
-    if(a.u==="b"){row("YOUR TASK · START HERE",w[6],true);row("FULL VERSION · WHEN READY",w[3])}
-    else{row("YOUR TASK · 60 TO 90 MIN",w[3],true);if(a.u==="a"||a.h==="4")row("STRETCH",w[7])}
+    row("YOUR TASK · 60 TO 90 MIN",w[3],true);
+    if(a.u==="b")row("EASIER START",w[6]);
+    if(a.u==="a"||a.h==="4")row("STRETCH",w[7]);
     row("KEEP",w[4]);
     d.appendChild(b);li.appendChild(d);return li;
   }
@@ -313,7 +314,7 @@ details[open] summary::after{content:"–"}
     var pkey="upskill:"+tk,done=store(pkey)||{};
     $("planTitle").textContent=T.name+" track";
     $("planLabel").textContent="YOUR PLAN · "+role[1].toUpperCase();
-    $("planFocus").textContent="Weeks 1 and 2 are the common core. Weeks 3 to 8 focus on: "+T.focus.charAt(0).toLowerCase()+T.focus.slice(1);
+    $("planFocus").textContent="Weeks 1 and 2 are the common core. Weeks 3 to 8 focus on: "+(/^AI/.test(T.focus)?T.focus:T.focus.charAt(0).toLowerCase()+T.focus.slice(1));
     var snap=$("snap");snap.textContent="";
     [["LEVEL",LEVEL[a.u]],["TIME",HOURS[a.h]],["YOU WILL KEEP","8 work artefacts"]].concat(a.d?[["DOMAIN",a.d]]:[]).forEach(function(p){
       var d=el("div");d.appendChild(el("span","k",p[0]));d.appendChild(el("span","v",p[1]));snap.appendChild(d)});
