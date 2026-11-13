@@ -33,10 +33,28 @@ function planner() {
   return out.join('\n');
 }
 
+// ---- Shipped log: built from shipped/data.js ----
+function shipped() {
+  const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(SITE, 'shipped', 'data.js'), 'utf8'), sandbox);
+  // Newest first; entries on the same day keep file order, latest last in the file shown first.
+  const L = sandbox.window.SHIPPED.map((e, i) => ({ ...e, i })).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.i - a.i));
+  const out = [];
+  out.push('### Shipped log (what RK has shipped, improved, fixed and written, newest first)');
+  out.push(`A dated log of RK's personal projects. Full page: ${BASE}/shipped/`);
+  // Anchors are dropped: the assistant strips '#' from answers, which would break such links.
+  for (const e of L) {
+    out.push(`- ${e.date} [${e.tag}] ${e.title}: ${e.text}${e.link ? ' Link: ' + e.link.split('#')[0] : ''}`);
+  }
+  return out.join('\n');
+}
+
 const md = [
   '## Site tools and pages (generated from the live site at build time)',
   '',
   planner(),
+  '',
+  shipped(),
   '',
 ].join('\n');
 

@@ -73,6 +73,7 @@ An 8-week AI plan for busy IT professionals. Answer six short questions (role, t
 
 - `site/index.html`: the whole page, styles and the assistant widget included.
 - `site/upskill/`: the AI Upskilling Planner. `index.html` is the page and `data.js` holds the 8-week content for the six role tracks.
+- `site/shipped/`: the Shipped log. `data.js` holds the entries (add new ones at the end); the page, the homepage strip and the assistant's knowledge are all built from it.
 - `site/fonts/`: self-hosted Space Grotesk and IBM Plex Mono.
 - `site/Radhakrishna-Kamaraju-Resume.pdf`: the public résumé, generated from `resume/resume.html`.
 - `scripts/build-knowledge.js`: run by the Docker build; writes `/knowledge-site.md` from the real page content. When you add a page or tool, add it to this script.
