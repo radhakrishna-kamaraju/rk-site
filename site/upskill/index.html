@@ -279,7 +279,7 @@ details[open] summary::after{content:"–"}
     e.preventDefault();
     if(i<QS.length-1){i++;drawQ();return}
     a.d=(a.d||"").trim();
-    history.replaceState(null,"","?"+query());
+    try{history.replaceState(null,"","?"+query())}catch(e){}
     drawPlan(true);
   });
 
@@ -346,7 +346,7 @@ details[open] summary::after{content:"–"}
     function fallback(){var t=el("input");t.value=url;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){b.textContent="Copy the address bar"}t.remove()}
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(ok,fallback);else fallback();
   });
-  $("redo").addEventListener("click",function(){history.replaceState(null,"",location.pathname);i=0;show("quiz");drawQ();$("quiz").scrollIntoView()});
+  $("redo").addEventListener("click",function(){try{history.replaceState(null,"",location.pathname)}catch(e){}i=0;show("quiz");drawQ();$("quiz").scrollIntoView()});
 
   /* ---------- open from a shared link ---------- */
   var p=new URLSearchParams(location.search);
