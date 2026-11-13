@@ -61,13 +61,15 @@ An 8-week AI plan for busy IT professionals. Answer six short questions (role, t
 
 **The planner could show nothing.** After the last question, the page saves the answers into the address bar so the plan can be shared. In some browser contexts, such as a sandboxed preview, the browser refuses that and throws an error. Because it happened *before* the plan was drawn, the visitor got a blank result. The fix makes the address-bar update optional: if the browser refuses it, the plan still renders, and only the shareable link is lost.
 
+**Deploys silently stopped for a day.** The build step that generates the assistant's knowledge file wrote to an `/out` folder that doesn't exist inside the build container. Every build after that change failed, and because a failed build leaves the running container in place, the site looked fine while nothing new went live. I noticed only when the assistant didn't know about the new Shipped log. The step now creates its folder. The real lesson is the missing check after each deploy, which is now the first item under Next.
+
 **The Ask box sent some questions twice**, which used up the rate limit early. This page now ignores a second submit while a question is being answered. The full story is in [rk-assistant](https://github.com/radhakrishna-kamaraju/rk-assistant#what-broke-and-whats-next).
 
 **Next:**
+- An automated check after each deploy, failing loudly if the site, the planner or the knowledge file doesn't respond, or if the live version isn't the latest commit.
 - Phase 2 of the planner: an optional AI "tailor this to me" step.
 - A newsletter link, once buildwithRKAI is published.
 - A photo in the photography section.
-- An automated check after each deploy that the site, the planner and the knowledge file all respond.
 
 ## This repo
 

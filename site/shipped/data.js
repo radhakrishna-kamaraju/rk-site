@@ -40,9 +40,6 @@ window.SHIPPED = [
     text: "A free 8-week AI plan for busy IT professionals, across six role tracks. It runs entirely in the browser: no sign-up, nothing sent to a server.",
     link: "https://radhakrishnakamaraju.com/upskill/", linkText: "Build your plan" },
 
-  { date: "2026-11-13", tag: "Improved", title: "The assistant learns new pages by itself",
-    text: "Every deploy of this site now generates the assistant's knowledge file from the real pages, so a new page reaches it with no manual update.",
-    link: "https://github.com/radhakrishna-kamaraju/rk-site/blob/main/scripts/build-knowledge.js", linkText: "See the script" },
 
   { date: "2026-11-13", tag: "Fixed", title: "The planner could show a blank result",
     text: "When a browser refused to update the address bar, the error stopped the plan from rendering. That update is now optional, so the plan always appears.",
@@ -55,4 +52,11 @@ window.SHIPPED = [
   { date: "2026-11-14", tag: "Fixed", title: "The assistant broke links with an anchor",
     text: "Stripping markdown also removed the '#' inside links, so a link to a section of a page pointed nowhere. Allowed links are now set aside first, then put back. Found while building this log.",
     link: "https://github.com/radhakrishna-kamaraju/rk-assistant#what-broke-and-whats-next", linkText: "The full story" },
+  { date: "2026-11-14", tag: "Fixed", title: "Site deploys had silently stopped",
+    text: "A new build step wrote to a folder that did not exist, so every site build failed and the server kept serving the last good version. Found when the assistant did not know about this log. The step now creates its folder.",
+    link: "https://github.com/radhakrishna-kamaraju/rk-site#what-broke-and-whats-next", linkText: "The full story" },
+
+  { date: "2026-11-14", tag: "Improved", title: "The assistant learns new pages by itself",
+    text: "Every deploy of this site now generates the assistant's knowledge file from the real pages, so a new page reaches it with no manual update.",
+    link: "https://github.com/radhakrishna-kamaraju/rk-site/blob/main/scripts/build-knowledge.js", linkText: "See the script" },
 ];

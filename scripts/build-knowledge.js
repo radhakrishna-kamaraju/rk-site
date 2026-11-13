@@ -57,5 +57,7 @@ const md = [
   '',
 ].join('\n');
 
+// The output folder may not exist yet (in the Docker build it is /out), so create it.
+fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, md);
 console.log(`wrote ${OUT} (${md.length} bytes)`);
