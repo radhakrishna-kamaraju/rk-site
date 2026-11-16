@@ -63,12 +63,29 @@ function factory() {
   return out.join('\n');
 }
 
+// ---- Agent Caseback: built from agents/index.html ----
+function agents() {
+  const html = fs.readFileSync(path.join(SITE, 'agents', 'index.html'), 'utf8');
+  const desc = meta(html, /<meta name="description" content="([^"]*)"/);
+  const terms = [...html.matchAll(/^ \["[a-z]+","([^"]+)","([^"]+)"\]/gm)].map((m) => `${m[1]}: ${m[2]}`);
+  const out = [];
+  out.push('### Agent Caseback');
+  out.push(`${desc} Page: ${BASE}/agents/`);
+  out.push('The project and its four weekly reports are invented. The agent outputs are real and were recorded on 16 Nov 2026; no model runs when a visitor presses Play.');
+  out.push('Result of the recorded run: the project reported GREEN for four weeks, the first agent alone said AMBER, and after three rounds with the review agent the signed-off status was RED. The run took six model calls and 88 seconds of model time.');
+  out.push('The same review step landed differently on one earlier pass, so a person should still approve the result.');
+  if (terms.length) out.push(`Architecture terms explained on the page: ${terms.join(' ')}`);
+  return out.join('\n');
+}
+
 const md = [
   '## Site tools and pages (generated from the live site at build time)',
   '',
   planner(),
   '',
   factory(),
+  '',
+  agents(),
   '',
   shipped(),
   '',

@@ -63,4 +63,8 @@ window.SHIPPED = [
   { date: "2026-11-16", tag: "Shipped", title: "Smart Factory Line",
     text: "An interactive 3D production line with five stations. Raise the AI maturity level and each station switches over, with what it needs, a typical result and where it fails. It runs entirely in the browser.",
     link: "https://radhakrishnakamaraju.com/factory/", linkText: "Walk the line" },
+
+  { date: "2026-11-16", tag: "Shipped", title: "Agent Caseback",
+    text: "A recorded run of two AI agents assessing one project's health, replayed step by step. One agent does the work, a second audits it, and the status moves from a reported green to a signed-off red in three rounds. The reports are invented and the agent outputs are real.",
+    link: "https://radhakrishnakamaraju.com/agents/", linkText: "Watch the run" },
 ];
