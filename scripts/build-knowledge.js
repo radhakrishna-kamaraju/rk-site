@@ -48,10 +48,27 @@ function shipped() {
   return out.join('\n');
 }
 
+// ---- Smart Factory Line: built from factory/index.html ----
+function factory() {
+  const html = fs.readFileSync(path.join(SITE, 'factory', 'index.html'), 'utf8');
+  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  const stations = [...html.matchAll(/ly:[\d.]+,name:'([^']+)'/g)].map((m) => m[1]);
+  const levels = [...html.matchAll(/\{n:'([^']+)',d:'([^']+)'\}/g)].map((m, i) => `Level ${i + 1} ${m[1]}: ${m[2]}`);
+  const out = [];
+  out.push('### Smart Factory Line');
+  out.push(`${desc} It runs in the browser, needs no sign-up and stores nothing. Page: ${BASE}/factory/`);
+  if (stations.length) out.push(`Stations: ${stations.join(', ')}.`);
+  if (levels.length) out.push(`The five levels use the same scale as the Industrial AI Index. ${levels.join(' ')}`);
+  out.push('The counters on the page come from a simplified simulation and are not a forecast for a real plant.');
+  return out.join('\n');
+}
+
 const md = [
   '## Site tools and pages (generated from the live site at build time)',
   '',
   planner(),
+  '',
+  factory(),
   '',
   shipped(),
   '',

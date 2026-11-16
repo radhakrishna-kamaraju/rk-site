@@ -2,7 +2,7 @@
 
 **My personal site, and the small platform behind it: one server, three live apps, deployed by `git push`.**
 
-**Live:** [radhakrishnakamaraju.com](https://radhakrishnakamaraju.com) · [AI Upskilling Planner](https://radhakrishnakamaraju.com/upskill/) · [Résumé (PDF)](https://radhakrishnakamaraju.com/Radhakrishna-Kamaraju-Resume.pdf)
+**Live:** [radhakrishnakamaraju.com](https://radhakrishnakamaraju.com) · [AI Upskilling Planner](https://radhakrishnakamaraju.com/upskill/) · [Smart Factory Line](https://radhakrishnakamaraju.com/factory/) · [Résumé (PDF)](https://radhakrishnakamaraju.com/Radhakrishna-Kamaraju-Resume.pdf)
 
 ![Homepage: "Hello, I'm RK. I build AI agents and share what I learn."](docs/screenshot-home.png)
 
