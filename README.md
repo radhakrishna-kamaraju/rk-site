@@ -68,7 +68,6 @@ An 8-week AI plan for busy IT professionals. Answer six short questions (role, t
 **Next:**
 - An automated check after each deploy, failing loudly if the site, the planner or the knowledge file doesn't respond, or if the live version isn't the latest commit.
 - Phase 2 of the planner: an optional AI "tailor this to me" step.
-- A newsletter link, once buildwithRKAI is published.
 - A photo in the photography section.
 
 ## This repo
