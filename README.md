@@ -2,7 +2,7 @@
 
 **My personal site, and the small platform behind it: one server, three live apps, deployed by `git push`.**
 
-**Live:** [radhakrishnakamaraju.com](https://radhakrishnakamaraju.com) · [AI Upskilling Planner](https://radhakrishnakamaraju.com/upskill/) · [Smart Factory Line](https://radhakrishnakamaraju.com/factory/) · [Résumé (PDF)](https://radhakrishnakamaraju.com/Radhakrishna-Kamaraju-Resume.pdf)
+**Live:** [radhakrishnakamaraju.com](https://radhakrishnakamaraju.com) · [AI Upskilling Planner](https://radhakrishnakamaraju.com/upskill/) · [Smart Factory Line](https://radhakrishnakamaraju.com/factory/) · [Agent Caseback](https://radhakrishnakamaraju.com/agents/) · [Résumé (PDF)](https://radhakrishnakamaraju.com/Radhakrishna-Kamaraju-Resume.pdf)
 
 ![Homepage: "Hello, I'm RK. I build AI agents and share what I learn."](docs/screenshot-home.png)
 
@@ -75,6 +75,7 @@ An 8-week AI plan for busy IT professionals. Answer six short questions (role, t
 
 - `site/index.html`: the whole page, styles and the assistant widget included.
 - `site/upskill/`: the AI Upskilling Planner. `index.html` is the page and `data.js` holds the 8-week content for the six role tracks.
+- `site/agents/`: Agent Caseback. One page that replays a recorded run of two AI agents (one assesses a project, one audits the assessment). The steps, quotes and timings are data inside the page; no model runs for visitors.
 - `site/shipped/`: the Shipped log. `data.js` holds the entries (add new ones at the end); the page, the homepage strip and the assistant's knowledge are all built from it.
 - `site/fonts/`: self-hosted Space Grotesk and IBM Plex Mono.
 - `site/Radhakrishna-Kamaraju-Resume.pdf`: the public résumé, generated from `resume/resume.html`.
