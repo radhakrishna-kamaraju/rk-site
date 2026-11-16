@@ -59,4 +59,8 @@ window.SHIPPED = [
   { date: "2026-11-14", tag: "Improved", title: "The assistant learns new pages by itself",
     text: "Every deploy of this site now generates the assistant's knowledge file from the real pages, so a new page reaches it with no manual update.",
     link: "https://github.com/radhakrishna-kamaraju/rk-site/blob/main/scripts/build-knowledge.js", linkText: "See the script" },
+
+  { date: "2026-11-16", tag: "Shipped", title: "Smart Factory Line",
+    text: "An interactive 3D production line with five stations. Raise the AI maturity level and each station switches over, with what it needs, a typical result and where it fails. It runs entirely in the browser.",
+    link: "https://radhakrishnakamaraju.com/factory/", linkText: "Walk the line" },
 ];
