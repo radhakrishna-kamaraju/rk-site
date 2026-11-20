@@ -61,9 +61,14 @@ function startHere() {
     { id: 'learn', intro: 'An 8-week plan that fits inside your job, a short note for every week, and one practical idea every two weeks.' },
     { id: 'build', intro: 'How I built a personal assistant on my own server, and two agents that check each other’s work.' },
   ];
-  const notesCard = { title: 'A Note for Every Week', status: 'free', kind: 'notes',
-    oneLiner: 'One short page per week of the plan, with what it looks like on your track. Start whenever you like.',
-    cta: { text: 'Browse Notes', href: '/upskill/' } };
+  // The weekly notes card appears once the notes exist; until then, the newsletter.
+  const notesCard = fs.existsSync(path.join(SITE, 'upskill', 'week-1', 'index.html'))
+    ? { title: 'A Note for Every Week', kind: 'notes', badge: 'NOTES',
+      oneLiner: 'One short page per week of the plan, with what it looks like on your track. Start whenever you like.',
+      cta: { text: 'Browse Notes', href: '/upskill/#weeks' } }
+    : { title: 'buildwithRKAI Newsletter', kind: 'notes', badge: 'NEWSLETTER',
+      oneLiner: 'Every two weeks: one week of the plan explained for all six tracks, plus what I built and learned.',
+      cta: { text: 'Subscribe Newsletter', href: NEWSLETTER } };
   const order = ['mfg', 'learn', 'build'];
   const tablist = order.map((id, n) =>
     `<button type="button" role="tab" id="tab-${id}" aria-controls="panel-${id}" aria-selected="${id === 'learn'}"${id === 'learn' ? '' : ' tabindex="-1"'}>${AUDIENCE[id]}</button>`).join('\n');
@@ -71,7 +76,7 @@ function startHere() {
     let items = PROJECTS.filter((p) => p.start && p.audience === t.id).slice(0, 2);
     if (t.id === 'learn') items = items.concat(notesCard).slice(0, 2);
     const cards = items.map((p) => `<article class="mini">
-<div class="chips">${p.kind === 'notes' ? '<span class="chip"><span class="dot live" aria-hidden="true"></span>FREE</span><span class="chip quiet">NOTES</span>' : statusChip(p) + kindChip(p)}</div>
+<div class="chips">${p.kind === 'notes' ? '<span class="chip"><span class="dot live" aria-hidden="true"></span>FREE</span><span class="chip quiet">' + p.badge + '</span>' : statusChip(p) + kindChip(p)}</div>
 <h3>${esc(p.title)}</h3>
 <p>${esc(p.oneLiner)}</p>
 <a class="btn" href="${esc(p.cta.href)}"${ext(p.cta.href)}>${esc(p.cta.text)}</a>
@@ -122,6 +127,70 @@ function recentlyShipped() {
     `<li><p class="when">${day(e.date)} · ${esc(e.tag.toUpperCase())}</p><a href="/shipped/">${esc(e.title)}</a></li>`).join('\n') + '\n</ul>';
 }
 
+
+// ---- shared header and footer: one definition, injected into every page ----
+
+const NEWSLETTER = 'https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7528134916136607746';
+
+function chromeCss() {
+  return `<style>
+.sh-head,.sh-foot{display:block;margin:0;padding:0;font-size:16px;line-height:1.2;color:#C9D2DE;background:#0F1B2D;font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.sh-head{border-bottom:1px solid #2A3C57}
+.sh-foot{border-top:1px solid #2A3C57;margin-top:48px;width:100%}
+.sh-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;box-sizing:border-box}
+.sh-mark{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;font-size:18px;letter-spacing:2px;color:#F2A33A!important;padding:12px 0;text-decoration:none}
+.sh-nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 28px;font-size:16px;line-height:1.2}
+.sh-nav a{color:#C9D2DE;padding:12px 0;text-decoration:none}
+.sh-nav a:hover{color:#F2A33A}
+.sh-nav a[aria-current="page"]{color:#F4F1EA;font-weight:600}
+.sh-nav a.sh-pill{color:#F4F1EA;border:1px solid #2F4769;border-radius:999px;padding:9px 16px;font-weight:500}
+.sh-nav a.sh-pill:hover{border-color:#F2A33A;color:#F2A33A}
+.sh-head a:focus-visible,.sh-foot a:focus-visible{outline:3px solid #F2A33A;outline-offset:4px;border-radius:6px}
+.sh-foot .sh-in{padding:28px 24px 40px;font-size:14px;color:#A9B4C4}
+.sh-foot .sh-links{display:flex;flex-wrap:wrap;gap:20px}
+.sh-foot .sh-links a{color:#F2A33A;text-decoration:none}
+.sh-foot .sh-links a:hover{text-decoration:underline}
+.sh-mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+@media print{.sh-head,.sh-foot{display:none!important}}
+</style>`;
+}
+
+function header(page) {
+  const items = [
+    ['projects', 'Projects', fs.existsSync(path.join(SITE, 'projects', 'index.html')) ? '/projects/' : '/#work'],
+    ['learn', 'Learn about AI', '/upskill/'],
+    ['notes', 'Notes', '/#notes'],
+    ['about', 'About', '/about/'],
+  ];
+  const links = items.map(([id, text, href]) =>
+    `<a href="${href}"${id === page ? ' aria-current="page"' : ''}>${text}</a>`).join('\n');
+  return `<div class="sh-head" role="banner">
+<div class="sh-in">
+<a class="sh-mark" href="/" aria-label="RK, home">RK</a>
+<div class="sh-nav" role="navigation" aria-label="Main">
+${links}
+<a class="sh-pill" href="/#ask">Ask this site</a>
+</div>
+</div>
+</div>`;
+}
+
+function footer() {
+  return `<div class="sh-foot" role="contentinfo">
+<div class="sh-in">
+<span>Radhakrishna Kamaraju &middot; <span class="sh-mono">buildwithRKAI</span></span>
+<div class="sh-links" role="navigation" aria-label="Elsewhere">
+<a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">LinkedIn</a>
+<a href="https://github.com/radhakrishna-kamaraju" rel="noopener">GitHub</a>
+<a href="${NEWSLETTER}" rel="noopener">Newsletter</a>
+<a href="mailto:hello@radhakrishnakamaraju.com">Email</a>
+</div>
+</div>
+</div>`;
+}
+
+const chrome = (page) => ({ chromecss: chromeCss, header: () => header(page), footer });
+
 // ---- apply ----
 
 function fill(file, blocks) {
@@ -137,5 +206,10 @@ function fill(file, blocks) {
 }
 
 fill('index.html', {
-  stats, start: startHere, featured, more: moreProjects, allprojects: allProjectsButton, shipped: recentlyShipped,
+  ...chrome('home'), stats, start: startHere, featured, more: moreProjects, allprojects: allProjectsButton, shipped: recentlyShipped,
 });
+fill('about/index.html', chrome('about'));
+fill('shipped/index.html', chrome('shipped'));
+fill('upskill/index.html', chrome('learn'));
+fill('factory/index.html', chrome('projects'));
+fill('agents/index.html', chrome('projects'));
