@@ -378,6 +378,123 @@ function buildProjectPages() {
   }
 }
 
+// ---- projects index: /projects/ — every project, filterable, newest first ----
+
+function projectsIndex() {
+  const latest = (p) => { const e = LOG.find((x) => x.project === p.slug); return e ? e.date : (p.firstLive || ''); };
+  const list = PROJECTS.slice().sort((a, b) => (latest(a) < latest(b) ? 1 : latest(a) > latest(b) ? -1 : 0));
+  const cards = list.map((p) => {
+    const when = p.status === 'building' ? 'IN PROGRESS' : (latest(p) ? day(latest(p)) : '');
+    const story = p.story && p.story !== p.cta.href ? `<a class="btn quiet" href="${esc(p.story)}"${ext(p.story)}>How I Built It</a>` : '';
+    return `<article class="card" data-aud="${p.audience}" data-kind="${p.kind}" data-status="${p.status}">
+<div class="chips">${statusChip(p)}${kindChip(p)}</div>
+<h2>${esc(p.title)}</h2>
+<p class="txt">${esc(p.oneLiner)}</p>
+<p class="meta">${esc(AUDIENCE[p.audience].toUpperCase())} &middot; ${when}</p>
+<div class="btns"><a class="btn" href="${esc(p.cta.href)}"${ext(p.cta.href)}>${esc(p.cta.text)}</a>${story}</div>
+</article>`;
+  }).join('\n');
+  const group = (key, label, opts) => `<div class="frow" role="group" aria-label="Filter by ${label.toLowerCase()}">
+<span class="flabel">${label.toUpperCase()}</span>
+${opts.map(([v, t], i) => `<button type="button" data-key="${key}" data-val="${v}" aria-pressed="${i === 0}">${t}</button>`).join('\n')}
+</div>`;
+  const live = PROJECTS.filter((p) => p.status === 'live').length;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects &middot; Radhakrishna Kamaraju</title>
+<meta name="description" content="Everything RK has built with AI: ${PROJECTS.length} projects, ${live} live to try, each with how it was built and what was learned.">
+<meta property="og:title" content="Projects by Radhakrishna Kamaraju">
+<meta property="og:description" content="Everything I've built with AI, newest first.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%23F2A33A'%3ERK%3C/text%3E%3C/svg%3E">
+${PAGE_CSS}
+<style>
+.filters{display:flex;flex-direction:column;gap:14px;padding:8px 0 8px}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.flabel{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted);width:96px}
+.frow button{font:inherit;font-size:15px;cursor:pointer;min-height:44px;padding:9px 16px;border-radius:999px;background:none;color:var(--text);border:1px solid var(--line)}
+.frow button:hover{border-color:var(--muted)}
+.frow button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.count{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:6px}
+html:not(.js) .filters{display:none}
+.grid{display:flex;flex-wrap:wrap;gap:20px;padding:16px 0 56px}
+.card{flex:1 1 320px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px 24px;display:flex;flex-direction:column;gap:12px}
+.card[hidden]{display:none}
+.card .chips{margin:0}
+.card h2{font-size:26px;font-weight:600;margin-top:4px}
+.card .txt{font-size:16px;line-height:1.55;color:var(--body);flex-grow:1}
+.card .meta{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.card .btns{display:flex;flex-wrap:wrap;gap:10px}
+.card .btn{padding:12px 14px;font-size:14px}
+.empty{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:40px 28px;text-align:center;margin-bottom:56px}
+.empty p{font-size:18px;color:var(--body);margin-bottom:16px}
+.empty button{font:inherit;cursor:pointer}
+</style>
+<script>document.documentElement.className="js"</script>
+${chromeCss()}
+</head>
+<body>
+${header('projects')}
+<main class="wrap">
+<div class="top">
+<p class="label" style="color:var(--accent)">PROJECTS</p>
+<h1>Everything I've built.</h1>
+<p class="lead">Most of these are live, so you can try them. Each one has a page on how I built it and what I learned. Newest first.</p>
+</div>
+<div class="filters" aria-label="Filters">
+${group('aud', 'For', [['all', 'All'], ['mfg', 'AI in Manufacturing'], ['build', 'Build with AI'], ['learn', 'Learn about AI']])}
+${group('kind', 'Kind', [['all', 'All'], ['tool', 'Tools'], ['demo', 'Demos'], ['story', 'Build Stories']])}
+${group('status', 'Status', [['all', 'All'], ['live', 'Live'], ['building', 'Building']])}
+<p class="count" aria-live="polite" id="count">SHOWING ${PROJECTS.length} OF ${PROJECTS.length}</p>
+</div>
+<div class="grid" id="grid">
+${cards}
+</div>
+<div class="empty" id="empty" hidden>
+<p>No projects match these filters yet.</p>
+<button type="button" class="btn quiet" id="clear">Clear Filters</button>
+</div>
+<section class="band" aria-label="Newsletter">
+<div class="split">
+<div class="text"><p class="label">BUILDWITHRKAI &middot; EVERY TWO WEEKS</p><h2>Follow what I build next.</h2><p>Every two weeks I write about what I built, what broke and what I learned. Free, on LinkedIn.</p></div>
+<div class="side"><a class="btn" href="${NEWSLETTER}" rel="noopener">Subscribe Newsletter</a></div>
+</div>
+</section>
+</main>
+${footer()}
+<script>
+// Filters. Without JavaScript the filters are hidden and every project shows.
+(function(){
+  var f={aud:"all",kind:"all",status:"all"};
+  var cards=[].slice.call(document.querySelectorAll("#grid .card")),btns=[].slice.call(document.querySelectorAll(".frow button"));
+  function apply(){
+    var n=0;
+    cards.forEach(function(c){
+      var ok=(f.aud==="all"||c.dataset.aud===f.aud)&&(f.kind==="all"||c.dataset.kind===f.kind)&&(f.status==="all"||c.dataset.status===f.status);
+      c.hidden=!ok;if(ok)n++;
+    });
+    btns.forEach(function(b){b.setAttribute("aria-pressed",String(f[b.dataset.key]===b.dataset.val))});
+    document.getElementById("count").textContent="SHOWING "+n+" OF "+cards.length;
+    document.getElementById("empty").hidden=n>0;
+  }
+  btns.forEach(function(b){b.addEventListener("click",function(){f[b.dataset.key]=b.dataset.val;apply()})});
+  document.getElementById("clear").addEventListener("click",function(){f={aud:"all",kind:"all",status:"all"};apply()});
+})();
+</script>
+</body>
+</html>
+`;
+}
+
+function buildProjectsIndex() {
+  fs.mkdirSync(path.join(SITE, 'projects'), { recursive: true });
+  fs.writeFileSync(path.join(SITE, 'projects', 'index.html'), projectsIndex());
+  console.log('built projects/index.html');
+}
+
 // ---- apply ----
 
 function fill(file, blocks) {
@@ -392,6 +509,8 @@ function fill(file, blocks) {
   console.log(`built ${file} (${Object.keys(blocks).join(', ')})`);
 }
 
+// The index first: other pages link to /projects/ only once it exists.
+buildProjectsIndex();
 buildProjectPages();
 fill('index.html', {
   ...chrome('home'), stats, start: startHere, featured, more: moreProjects, allprojects: allProjectsButton, shipped: recentlyShipped,
