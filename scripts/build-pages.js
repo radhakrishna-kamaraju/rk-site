@@ -191,6 +191,193 @@ function footer() {
 
 const chrome = (page) => ({ chromecss: chromeCss, header: () => header(page), footer });
 
+// ---- project pages: /projects/<slug>/ for every project with page: true ----
+
+const PAGE_CSS = `<style>
+@font-face{font-family:"Space Grotesk";font-weight:400;font-display:swap;src:url("/fonts/space-grotesk-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;font-display:swap;src:url("/fonts/space-grotesk-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:700;font-display:swap;src:url("/fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+:root{--bg:#0F1B2D;--text:#F4F1EA;--muted:#A9B4C4;--body:#C9D2DE;--card:#17283F;--line:#2A3C57;--accent:#F2A33A;--live:#4ADE80;--quiet:#1F3350;--quiet-line:#2F4769;
+--sans:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--text);text-decoration:none}a:hover{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:6px}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.label{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px}
+.crumb{font-family:var(--mono);font-size:13px;color:var(--muted);margin-bottom:24px}
+.crumb a{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--text);border:1px solid var(--quiet-line);padding:3px 8px;border-radius:6px}
+.chip.quiet{color:var(--body);border-color:var(--line)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block}.dot.live{background:var(--live)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 20px;border-radius:12px;font-weight:600;font-size:15px;background:var(--accent);color:var(--bg)}
+.btn:hover{color:var(--bg);filter:brightness(1.08)}
+.btn.quiet{background:var(--quiet);color:var(--text);border:1px solid var(--quiet-line)}
+.btn.quiet:hover{border-color:var(--accent);color:var(--text);filter:none}
+.btn.big{font-size:16px;padding:14px 24px}
+.top{padding:56px 0 40px}
+.top h1{font-size:clamp(36px,5vw,56px);line-height:1.08;font-weight:700;letter-spacing:-0.02em}
+.top .lead{margin-top:18px;max-width:680px;font-size:19px;line-height:1.6;color:var(--body)}
+.top .actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.body{display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start;padding:24px 0 56px}
+.story{flex:999 1 560px;min-width:0}
+.story .p{font-size:18px;line-height:1.7;color:var(--body);margin-bottom:40px}
+.story ul{margin:0;padding:0 0 0 20px;font-size:18px;line-height:1.7;color:var(--body)}
+.story ul li{margin-bottom:8px}
+.areas{display:flex;flex-wrap:wrap;gap:10px;margin:-24px 0 40px}
+.areas span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:15px}
+.steps{list-style:none;margin:0 0 16px;padding:0}
+.steps li{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line);font-size:17px;line-height:1.55;color:var(--body)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps b{font-family:var(--mono);font-size:13px;font-weight:400;color:var(--accent);width:24px;flex:none;padding-top:3px}
+.note{font-size:14px;line-height:1.6;color:var(--muted);margin-bottom:40px}
+.glance{flex:1 1 280px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px}
+.glance dl{margin:0;display:grid;gap:14px}
+.glance dt{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase}
+.glance dd{margin:2px 0 0;font-size:16px}
+.glance .btn{width:100%;margin-top:24px}
+section.band{padding:56px 0;border-top:1px solid var(--line)}
+section.band h2{font-size:28px;font-weight:600;margin-bottom:8px}
+section.band .intro{max-width:680px;font-size:17px;line-height:1.6;color:var(--body);margin-bottom:20px}
+.list{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.list li{padding:16px 0;border-top:1px solid var(--line)}
+.list .when{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:6px}
+.list .what{font-size:17px}
+.days li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px}
+.days .d{font-family:var(--mono);font-size:13px;color:var(--accent);width:64px}
+.days .dt{font-family:var(--mono);font-size:12px;color:var(--muted);width:72px}
+.days .t{flex:1 1 360px;min-width:0}
+.days .t span{display:block;font-size:17px;line-height:1.4}
+.days .t small{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase}
+.days .btn{width:96px;font-size:14px;padding:10px 16px}
+.split{display:flex;flex-wrap:wrap;align-items:center;gap:40px}
+.split .text{flex:1 1 520px;min-width:0}
+.split .text p:not(.label){font-size:17px;line-height:1.6;color:var(--body)}
+.split .side{flex:1 1 260px;min-width:0;display:flex;justify-content:center}
+.split .side .btn{width:280px;max-width:100%}
+.related{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;margin:24px 0 72px}
+.related .k{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.related b{display:block;font-size:24px;font-weight:600}
+.related .s{display:block;font-size:16px;color:var(--body);margin-top:4px}
+.related:hover b{color:var(--accent)}
+</style>`;
+
+const dayLong = (d) => { const p = d.split('-'); const MO = ['January','February','March','April','May','June','July','August','September','October','November','December']; return `${+p[2]} ${MO[+p[1] - 1]} ${p[0]}`; };
+const shortDay = (d) => { const p = d.split('-'); return `${+p[2]} ${M[+p[1] - 1]}`; };
+
+function projectPage(p) {
+  const sec = [];
+  let n = 0;
+  const num = () => String(++n).padStart(2, '0');
+  if (p.problem) sec.push(`<p class="label">${num()} / THE PROBLEM</p>\n<p class="p">${esc(p.problem)}</p>`);
+  if (p.built) {
+    sec.push(`<p class="label">${num()} / WHAT I BUILT</p>\n<p class="p">${esc(p.built)}</p>`);
+    if (p.areas) sec.push(`<div class="areas">${p.areas.map((a) => `<span>${esc(a)}</span>`).join('')}</div>`);
+  }
+  if (p.how || p.howText) {
+    let h = `<p class="label">${num()} / HOW IT WORKS</p>\n`;
+    if (p.howText) h += `<p class="p">${esc(p.howText)}</p>`;
+    if (p.how) h += `<ol class="steps">${p.how.map((s, i) => `<li><b>${i + 1}</b><span>${esc(s)}</span></li>`).join('')}</ol>`;
+    if (p.note) h += `<p class="note">${esc(p.note)}</p>`; else if (p.how) h += '<div style="height:24px"></div>';
+    sec.push(h);
+  }
+  if (p.learned) sec.push(`<p class="label">${num()} / WHAT I LEARNED</p>\n<ul>${p.learned.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`);
+
+  const glance = p.glance ? `<aside class="glance" aria-label="At a glance">
+<p class="label">AT A GLANCE</p>
+<dl>${p.glance.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+</aside>` : '';
+
+  const actions = (p.actions || [{ text: p.cta.text, href: p.cta.href }, { text: 'All Projects', href: fs.existsSync(path.join(SITE, 'projects', 'index.html')) ? '/projects/' : '/#work', quiet: true }])
+    .map((a, i) => `<a class="btn big${i ? ' quiet' : ''}" href="${esc(a.href)}"${ext(a.href)}>${esc(a.text)}</a>`).join('\n');
+
+  const series = p.series ? `<section class="band" id="build" aria-labelledby="build-h">
+<p class="label">THE 10-DAY BUILD</p>
+<h2 id="build-h">One post a day, ${dayLong(p.series[0].date).replace(/ \d{4}$/, '')} to ${dayLong(p.series[p.series.length - 1].date).replace(/ \d{4}$/, '')}.</h2>
+<p class="intro">Each day added one capability, tested it, and wrote down what broke.</p>
+<ol class="list days">
+${p.series.map((d) => `<li><span class="d">DAY ${d.day}</span><span class="dt">${shortDay(d.date)}</span><span class="t"><span>${esc(d.title)}</span><small>${esc(d.topic)}</small></span><a class="btn quiet" href="https://www.linkedin.com/feed/update/urn:li:activity:${d.id}/" rel="noopener" aria-label="Read day ${d.day} on LinkedIn">Read</a></li>`).join('\n')}
+</ol>
+</section>` : '';
+
+  const hist = LOG.filter((e) => e.project === p.slug);
+  const history = hist.length ? `<section class="band" aria-labelledby="hist-h">
+<p class="label">HISTORY &middot; FROM THE SHIPPED LOG</p>
+<h2 id="hist-h">How it has changed.</h2>
+<ul class="list" style="margin-top:20px">
+${hist.map((e) => `<li><p class="when">${day(e.date)} &middot; ${esc(e.tag.toUpperCase())}</p><p class="what">${esc(e.title)}</p></li>`).join('\n')}
+</ul>
+</section>` : '';
+
+  let rel = '';
+  if (p.next) rel = { k: p.next.label, t: p.next.title, s: p.next.text, href: p.next.href };
+  else if (p.related) { const r = PROJECTS.find((x) => x.slug === p.related); if (r) rel = { k: 'Related project', t: r.title, s: r.oneLiner, href: r.page ? `/projects/${r.slug}/` : r.cta.href }; }
+  const related = rel ? `<a class="related" href="${esc(rel.href)}"${ext(rel.href)}><span><span class="k">${esc(rel.k.toUpperCase())}</span><b>${esc(rel.t)}</b><span class="s">${esc(rel.s)}</span></span><span class="btn quiet">${p.next ? esc(p.next.cta) : 'Open'}</span></a>` : '';
+
+  const desc = p.lead || p.oneLiner;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(p.title)} &middot; Radhakrishna Kamaraju</title>
+<meta name="description" content="${esc(desc)}">
+<meta property="og:title" content="${esc(p.title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%23F2A33A'%3ERK%3C/text%3E%3C/svg%3E">
+${PAGE_CSS}
+${chromeCss()}
+</head>
+<body>
+${header('projects')}
+<main class="wrap">
+<div class="top">
+<p class="crumb"><a href="${fs.existsSync(path.join(SITE, 'projects', 'index.html')) ? '/projects/' : '/#work'}">PROJECTS</a> / ${esc(p.title.toUpperCase())}</p>
+<div class="chips">${statusChip(p)}${kindChip(p)}<span class="chip quiet">${esc(AUDIENCE[p.audience].toUpperCase())}</span></div>
+<h1>${esc(p.title)}</h1>
+<p class="lead">${esc(desc)}</p>
+<div class="actions">
+${actions}
+</div>
+</div>
+<div class="body">
+<article class="story">
+${sec.join('\n')}
+</article>
+${glance}
+</div>
+${series}
+${history}
+<section class="band" aria-label="Newsletter">
+<div class="split">
+<div class="text"><p class="label">BUILDWITHRKAI &middot; EVERY TWO WEEKS</p><h2>Liked this? Get the next one.</h2><p>Every two weeks I write about what I built, what broke and what I learned. Free, on LinkedIn.</p></div>
+<div class="side"><a class="btn" href="${NEWSLETTER}" rel="noopener">Subscribe Newsletter</a></div>
+</div>
+</section>
+${related}
+</main>
+${footer()}
+</body>
+</html>
+`;
+}
+
+function buildProjectPages() {
+  for (const p of PROJECTS.filter((x) => x.page)) {
+    const dir = path.join(SITE, 'projects', p.slug);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), projectPage(p));
+    console.log(`built projects/${p.slug}/index.html`);
+  }
+}
+
 // ---- apply ----
 
 function fill(file, blocks) {
@@ -205,6 +392,7 @@ function fill(file, blocks) {
   console.log(`built ${file} (${Object.keys(blocks).join(', ')})`);
 }
 
+buildProjectPages();
 fill('index.html', {
   ...chrome('home'), stats, start: startHere, featured, more: moreProjects, allprojects: allProjectsButton, shipped: recentlyShipped,
 });
@@ -213,3 +401,4 @@ fill('shipped/index.html', chrome('shipped'));
 fill('upskill/index.html', chrome('learn'));
 fill('factory/index.html', chrome('projects'));
 fill('agents/index.html', chrome('projects'));
+fill('projects/clawdia/architecture/index.html', chrome('projects'));

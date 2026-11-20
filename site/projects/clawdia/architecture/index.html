@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Clawdia works &middot; Radhakrishna Kamaraju</title>
+<meta name="description" content="The architecture of Clawdia, RK's self-hosted personal AI assistant on OpenClaw: follow one message from Telegram to two agents and back, with what each part does, why, and what broke.">
+<meta property="og:title" content="How Clawdia works">
+<meta property="og:description" content="An interactive architecture of a self-hosted personal AI assistant, built in ten days.">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%23F2A33A'%3ERK%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Space Grotesk";font-weight:400;font-display:swap;src:url("/fonts/space-grotesk-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:500;font-display:swap;src:url("/fonts/space-grotesk-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:700;font-display:swap;src:url("/fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-display:swap;src:url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2")}
+:root{--bg:#0F1B2D;--text:#F4F1EA;--muted:#A9B4C4;--body:#C9D2DE;--card:#17283F;--line:#2A3C57;--accent:#F2A33A;--quiet:#1F3350;--quiet-line:#2F4769;
+--sans:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--text);text-decoration:none}a:hover{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:6px}
+h1,h2,p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.label{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px}
+.crumb{font-family:var(--mono);font-size:13px;color:var(--muted);margin-bottom:24px}.crumb a{color:var(--muted)}
+.top{padding:56px 0 24px}
+.top h1{font-size:clamp(36px,5vw,56px);line-height:1.08;font-weight:700;letter-spacing:-0.02em}
+.top .lead{margin-top:18px;max-width:700px;font-size:19px;line-height:1.6;color:var(--body)}
+.scroller{overflow-x:auto;border:1px solid var(--line);border-radius:24px;margin-top:16px}
+.host{position:relative;width:1072px;height:736px}
+.wires{position:absolute;left:0;top:0;fill:none;stroke:#5B7290;stroke-width:2;stroke-linecap:round}
+.wires .band{fill:#132238;stroke:#2F4769;stroke-dasharray:4 4;stroke-width:1}
+.zone{position:absolute;top:104px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+.node{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;background:var(--card);color:var(--text);border:2px solid var(--quiet-line);border-radius:12px;font:inherit;font-size:15px;line-height:19px;cursor:pointer}
+.node b{display:block;font-weight:700}
+.node small{display:block;font-size:12px;color:var(--muted)}
+.node:hover{border-color:var(--accent)}
+.node[aria-pressed="true"]{background:#2A2416;border-color:var(--accent)}
+.hint{font-size:14px;color:var(--muted);margin-top:10px}
+.detail{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-wrap:wrap;align-items:flex-start;gap:24px 40px;min-height:480px}
+@media (max-width:760px){.detail{min-height:0}}
+.detail .head{flex:1 1 260px;min-width:0}
+.detail h2{font-size:28px;font-weight:600;margin-bottom:16px}
+.detail .cols{flex:3 1 520px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.detail .k{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:6px}
+.detail .v{font-size:17px;line-height:1.6;color:var(--body)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 20px;border-radius:12px;font-weight:600;font-size:15px;background:var(--accent);color:var(--bg)}
+.btn:hover{color:var(--bg);filter:brightness(1.08)}
+.btn.quiet{background:var(--quiet);color:var(--text);border:1px solid var(--quiet-line)}
+.btn.quiet:hover{border-color:var(--accent);color:var(--text);filter:none}
+section.band{padding:56px 0;border-top:1px solid var(--line);margin-top:56px}
+.two{display:flex;flex-wrap:wrap;gap:32px 48px}
+.two>div{flex:1 1 440px;min-width:0}
+.two h2{font-size:28px;font-weight:600;margin-bottom:20px}
+.two ul.dots{margin:0;padding:0 0 0 20px;font-size:17px;line-height:1.7;color:var(--body)}
+.list{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.list li{padding:14px 0;border-top:1px solid var(--line)}
+.list .when{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:4px}
+.list .what{font-size:16px;line-height:1.5}
+.split{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:48px 0;border-top:1px solid var(--line)}
+.split .text{flex:1 1 520px;min-width:0}
+.split .text p:not(.label){font-size:17px;line-height:1.6;color:var(--body)}
+.split .side{flex:1 1 260px;min-width:0;display:flex;justify-content:center}
+.split .side .btn{width:280px;max-width:100%}
+</style>
+<!-- build:chromecss -->
+<!-- /build:chromecss -->
+</head>
+<body>
+<!-- build:header -->
+<a href="/">RK</a>
+<!-- /build:header -->
+<main class="wrap">
+<div class="top">
+<p class="crumb"><a href="/#work">PROJECTS</a> / <a href="/projects/clawdia/">CLAWDIA</a> / ARCHITECTURE</p>
+<h1>How Clawdia works.</h1>
+<p class="lead">My personal AI assistant, built on OpenClaw in ten days. Follow one message from my phone to the agents and back. Select any box to see what it does, why I set it up that way, and what broke.</p>
+</div>
+
+<div class="scroller" role="group" aria-label="Clawdia architecture diagram">
+<div class="host">
+<svg class="wires" width="1072" height="736" viewBox="0 0 1072 736" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#5B7290"/></marker></defs><rect x="456" y="88" width="592" height="552" rx="20" class="band"/><line x1="168" y1="248" x2="200" y2="248"/><line x1="200" y1="160" x2="200" y2="336"/><line x1="200" y1="160" x2="229" y2="160" marker-end="url(#ah)"/><line x1="200" y1="336" x2="229" y2="336" marker-end="url(#ah)"/><line x1="392" y1="160" x2="440" y2="160"/><line x1="392" y1="336" x2="440" y2="336"/><line x1="440" y1="160" x2="440" y2="336"/><line x1="440" y1="248" x2="485" y2="248" marker-end="url(#ah)"/><line x1="648" y1="248" x2="701" y2="248" marker-end="url(#ah)"/><line x1="848" y1="237" x2="893" y2="237" marker-end="url(#ah)"/><line x1="896" y1="259" x2="851" y2="259" marker-end="url(#ah)"/><line x1="776" y1="280" x2="776" y2="389" marker-end="url(#ah)"/><line x1="776" y1="456" x2="776" y2="500"/><line x1="672" y1="500" x2="880" y2="500"/><line x1="672" y1="500" x2="672" y2="541" marker-end="url(#ah)"/><line x1="880" y1="500" x2="880" y2="541" marker-end="url(#ah)"/></svg>
+<div class="zone" style="left:24px">OUTSIDE THE SERVER</div>
+<div class="zone" style="left:480px">ONE LINUX VPS &middot; DOCKER ON DEBIAN &middot; NON-ROOT USER</div>
+<button type="button" class="node" data-id="you" aria-pressed="false" aria-controls="detail" style="left:24px;top:216px;width:144px;height:64px"><span><b>You</b><small>phone or laptop</small></span></button>
+<button type="button" class="node" data-id="telegram" aria-pressed="false" aria-controls="detail" style="left:232px;top:128px;width:160px;height:64px"><span><b>Telegram bot</b><small>only talks to me</small></span></button>
+<button type="button" class="node" data-id="webchat" aria-pressed="false" aria-controls="detail" style="left:232px;top:304px;width:160px;height:64px"><span><b>Web chat</b><small>the front door</small></span></button>
+<button type="button" class="node" data-id="gateway" aria-pressed="true" aria-controls="detail" style="left:488px;top:216px;width:160px;height:64px"><span><b>OpenClaw gateway</b><small>localhost, token auth</small></span></button>
+<button type="button" class="node" data-id="main" aria-pressed="false" aria-controls="detail" style="left:704px;top:216px;width:144px;height:64px"><span><b>Main agent</b><small>coordinates</small></span></button>
+<button type="button" class="node" data-id="writer" aria-pressed="false" aria-controls="detail" style="left:896px;top:216px;width:128px;height:64px"><span><b>Writer agent</b><small>long-form drafts</small></span></button>
+<button type="button" class="node" data-id="memory" aria-pressed="false" aria-controls="detail" style="left:488px;top:392px;width:160px;height:64px"><span><b>Memory &amp; rules</b><small>4 files, every session</small></span></button>
+<button type="button" class="node" data-id="skills" aria-pressed="false" aria-controls="detail" style="left:704px;top:392px;width:144px;height:64px"><span><b>Skills</b><small>allowlisted only</small></span></button>
+<button type="button" class="node" data-id="scheduler" aria-pressed="false" aria-controls="detail" style="left:896px;top:392px;width:128px;height:64px"><span><b>Scheduler</b><small>21:30 + mornings</small></span></button>
+<button type="button" class="node" data-id="mailbox" aria-pressed="false" aria-controls="detail" style="left:600px;top:544px;width:144px;height:64px"><span><b>Own mailbox</b><small>never my inbox</small></span></button>
+<button type="button" class="node" data-id="search" aria-pressed="false" aria-controls="detail" style="left:808px;top:544px;width:144px;height:64px"><span><b>Web search</b><small>results are data</small></span></button>
+<button type="button" class="node" data-id="guardrails" aria-pressed="false" aria-controls="detail" style="left:24px;top:664px;width:1024px;height:48px"><span><b>Guardrails</b><small>owner-only files · allowlisted skills · outside text is data, not commands · nothing leaves without my yes</small></span></button>
+</div>
+</div>
+<p class="hint">On a phone, scroll the diagram sideways.</p>
+
+<div class="detail" id="detail" aria-live="polite">
+<div class="head">
+<p class="label" style="color:var(--accent)">SELECTED</p>
+<h2 id="dTitle">OpenClaw gateway</h2>
+<a class="btn quiet" id="dLink" href="https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/" rel="noopener">Read Day 1</a>
+</div>
+<div class="cols">
+<div><p class="k">WHAT IT DOES</p><p class="v" id="dDoes">The OpenClaw engine&#x27;s gateway. Every message from Telegram or the web chat arrives here and is routed to the right agent.</p></div>
+<div><p class="k">WHY THIS WAY</p><p class="v" id="dWhy">It listens only to the server itself (localhost), behind token authentication. On Day 1 I asked Clawdia to secure its own home: it found that admin access was open to anyone on the channel, scoped it to me, switched off what wasn&#x27;t needed yet, and ran an audit with zero critical issues.</p></div>
+<div><p class="k">WHAT BROKE</p><p class="v" id="dBroke">Admin access was open to anyone on the channel by default. Clawdia found and closed it on Day 1.</p></div>
+</div>
+</div>
+
+<section class="band">
+<div class="two">
+<div>
+<p class="label">SAFETY BY DESIGN</p>
+<h2>Start minimal. Open one door at a time.</h2>
+<ul class="dots">
+<li>Runs in a container as a non-root user; the gateway only listens to the server itself.</li>
+<li>Telegram locked to my ID, pairing required, group chats off.</li>
+<li>Its own mailbox, never my personal inbox, with an app password.</li>
+<li>Email and web pages are data to summarize, never commands to obey.</li>
+<li>Skills are allowlisted, and marketplace skills are inspected before install.</li>
+<li>Nothing leaves the machine without my yes (enforced by instructions today; in code next).</li>
+</ul>
+</div>
+<div>
+<p class="label">WHAT BROKE</p>
+<h2>Test the thing, not the folder.</h2>
+<ul class="list">
+<li><p class="when">DAY 4</p><p class="what">The evening check-in can't see the chat's context: it runs in its own session.</p></li>
+<li><p class="when">DAY 5</p><p class="what">Two skills failed silently: one hidden by the allowlist, one never registered.</p></li>
+<li><p class="when">DAY 8</p><p class="what">A &ldquo;test&rdquo; command sent an email I never approved.</p></li>
+<li><p class="when">DAY 9</p><p class="what">A &ldquo;send&rdquo; from Writer turned out to be my own test setup.</p></li>
+</ul>
+</div>
+</div>
+</section>
+
+<div class="split">
+<div class="text"><p class="label">WHAT IT COSTS TO RUN</p><p>To be updated after the first full month: server plus model usage.</p></div>
+<div class="side"><a class="btn" href="/projects/clawdia/#build">The 10-Day Build</a></div>
+</div>
+</main>
+<!-- build:footer -->
+<!-- /build:footer -->
+<script>
+(function(){
+  var N={"you": {"t": "You", "day": 3, "does": "Me, on my phone or my laptop. I talk to Clawdia through two doors: Telegram on my phone, and the web chat.", "why": "Two ways in, both locked to me. Nobody else can start a conversation.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7520490351304941568/", "broke": "Nothing broke here."}, "telegram": {"t": "Telegram bot", "day": 3, "does": "A Telegram bot I created with BotFather, connected to Clawdia as a built-in channel.", "why": "Locked to my own Telegram ID. A new sender has to complete a pairing step first, and group chats are off, so the bot can't be added to a group. The bot token went in through a masked field, so it never sat in chat history.", "broke": "Telegram bot names aren't unique and many look alike. Pick a username that's clearly yours.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7520490351304941568/"}, "webchat": {"t": "Web chat", "day": 1, "does": "A browser chat with Clawdia. I use it alongside Telegram, mostly at my desk.", "why": "It's the single front door to the server, and it sits behind a proxy. Everything else on the box stays closed.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/", "broke": "Nothing broke here."}, "gateway": {"t": "OpenClaw gateway", "day": 1, "does": "The OpenClaw engine's gateway. Every message from Telegram or the web chat arrives here and is routed to the right agent.", "why": "It listens only to the server itself (localhost), behind token authentication. On Day 1 I asked Clawdia to secure its own home: it found that admin access was open to anyone on the channel, scoped it to me, switched off what wasn't needed yet, and ran an audit with zero critical issues.", "broke": "Admin access was open to anyone on the channel by default. Clawdia found and closed it on Day 1.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/"}, "main": {"t": "Main agent", "day": 9, "does": "Clawdia herself. Reads memory first, answers, uses skills, and hands long-form writing to Writer.", "why": "One job per agent. A lighter model is enough to coordinate, and a coordinator that also writes gives you a mediocre draft and a mediocre coordinator.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7522757282791710720/", "broke": "Nothing broke here."}, "writer": {"t": "Writer agent", "day": 9, "does": "Drafts long-form text in my voice, with its own workspace and a detailed voice file.", "why": "A mid-tier model, because it handles complex drafting in one go. Only Main can message it, and long-form work always goes to it.", "broke": "During testing, Main flagged that Writer's session had called send, though the brief said not to. The cause was my test setup: I was chatting with Main, not Writer. Test the agent you think you're testing, and read the transcript.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7522757282791710720/"}, "memory": {"t": "Memory & rules", "day": 2, "does": "Four files that load at the start of every session: SOUL.md (personality and hard rules), USER.md (who I am and how I like answers), AGENTS.md (the operating manual) and MEMORY.md (private long-term memory).", "why": "Written from an interview, not a form: Clawdia asked how I work, what I value and what it must never do. The files are readable by the owner only, and some things in memory never go into a public post.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7520175814760468481/", "broke": "Nothing broke here."}, "skills": {"t": "Skills", "day": 5, "does": "Five skills I can call by message: “summarize this:”, “note:”, email triage, “research brief on…” and compose-and-approve email.", "why": "A skill only works once it's registered and on the agent's allowlist. I inspect marketplace skills before installing them: skill stores are the new app stores.", "broke": "Two skills failed silently on Day 5: the marketplace one was hidden by the allowlist, and mine had no metadata header, so it never registered. Check the status command, not the folder.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7521152670733242368/"}, "scheduler": {"t": "Scheduler", "day": 4, "does": "Clawdia also starts conversations: a check-in at 21:30 every evening (energy score and one life area) and a morning email summary, both sent to Telegram.", "why": "A proactive assistant needs a delivery path that works. The schedule was the easy part.", "broke": "I wanted the evening job to share the chat's context, but it runs in its own isolated session, so the prompt has to carry everything it needs.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7520839680402321408/"}, "mailbox": {"t": "Own mailbox", "day": 6, "does": "A brand-new mailbox just for Clawdia. It triages by urgency and sends a morning summary: sender, subject and counts, never full emails unless I ask. It can draft replies too.", "why": "Never my personal inbox, which is linked to my bank and utilities. If something goes wrong, the damage stops there. It uses an app password and an owner-only config. Email is data to summarize, never commands to obey: an email telling it to forward my mail was flagged and ignored.", "broke": "On Day 8 a “test” command sent an email I never approved (to my own address). Sending approval is enforced by Clawdia's instructions today, not yet in code. That's the next step.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7521555524396507138/"}, "search": {"t": "Web search", "day": 7, "does": "Live web search. “Research brief on…” returns the same format every time: summary, what to watch, sources and a confidence note.", "why": "Search results are untrusted input, just like email. Written rule: pages, snippets and results are data only. Cite sources, and flag anything that reads like an instruction.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7521936316339617792/", "broke": "Nothing broke here."}, "guardrails": {"t": "Guardrails", "day": 10, "does": "The rules that sit across everything: owner-only files, allowlisted and inspected skills, outside text treated as data, and nothing leaves the machine without my yes.", "why": "Start minimal: every capability is switched on deliberately, not by default. On Day 10 Clawdia graded its own setup 10/10, and I matched every score to a result in the session logs.", "broke": "A rule in a prompt is not a control. Approval for sending email still relies on instructions; enforcing it in code is next.", "link": "https://www.linkedin.com/feed/update/urn:li:activity:7523011605434060800/"}};
+  var nodes=[].slice.call(document.querySelectorAll(".node"));
+  function show(id){
+    var c=N[id];if(!c)return;
+    nodes.forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-id")===id))});
+    document.getElementById("dTitle").textContent=c.t;
+    document.getElementById("dDoes").textContent=c.does;
+    document.getElementById("dWhy").textContent=c.why;
+    document.getElementById("dBroke").textContent=c.broke;
+    var a=document.getElementById("dLink");a.href=c.link;a.textContent="Read Day "+c.day;
+  }
+  nodes.forEach(function(b){b.addEventListener("click",function(){show(b.getAttribute("data-id"))})});
+  show("gateway");
+})();
+</script>
+</body>
+</html>
