@@ -33,6 +33,21 @@ function planner() {
   return out.join('\n');
 }
 
+// ---- Projects: built from projects/data.js ----
+function projects() {
+  const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(SITE, 'projects', 'data.js'), 'utf8'), sandbox);
+  const AUD = { mfg: 'AI in Manufacturing', build: 'Build with AI', learn: 'Learn about AI' };
+  const KIND = { tool: 'a tool to try', demo: 'an interactive demo', story: 'a build story' };
+  const out = [];
+  out.push('### Projects (all of RK\'s projects, as listed on the homepage)');
+  for (const p of sandbox.window.PROJECTS) {
+    const link = /^https?:/.test(p.cta.href) ? p.cta.href : BASE + p.cta.href;
+    out.push(`- ${p.title} (${p.status === 'live' ? 'live' : 'in progress'}, ${KIND[p.kind]}, for "${AUD[p.audience]}"): ${p.oneLiner} Link: ${link}`);
+  }
+  return out.join('\n');
+}
+
 // ---- Shipped log: built from shipped/data.js ----
 function shipped() {
   const sandbox = { window: {} };
@@ -80,6 +95,8 @@ function agents() {
 
 const md = [
   '## Site tools and pages (generated from the live site at build time)',
+  '',
+  projects(),
   '',
   planner(),
   '',
