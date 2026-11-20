@@ -75,14 +75,14 @@ h1,h2,h3,p{margin:0}
 .foot{margin-top:24px;padding:32px 0 48px;border-top:2px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:16px;color:var(--muted)}
 .foot a{color:var(--body)}
 </style>
+<!-- build:chromecss -->
+<!-- /build:chromecss -->
 </head>
 <body>
+<!-- build:header -->
+<a href="/">RK</a>
+<!-- /build:header -->
 <div class="wrap">
-
-<header class="top">
-  <a class="mark" href="../" aria-label="RK, back to home">RK</a>
-  <nav aria-label="Main"><a href="../">&larr; Back to the site</a></nav>
-</header>
 
 <main id="main">
 
@@ -100,11 +100,9 @@ h1,h2,h3,p{margin:0}
 <p class="fine">Personal projects only. Client and employer work stays private.</p>
 </main>
 
-<footer class="foot">
-  <span>Built by <a href="../">Radhakrishna Kamaraju</a></span>
-  <span><a href="https://github.com/radhakrishna-kamaraju" rel="noopener">GitHub</a> &middot; <a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">LinkedIn</a></span>
-</footer>
 </div>
+<!-- build:footer -->
+<!-- /build:footer -->
 
 <script src="data.js"></script>
 <script>
@@ -113,6 +111,9 @@ h1,h2,h3,p{margin:0}
   var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
   var all=(window.SHIPPED||[]).map(function(e,i){e._i=i;return e}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:b._i-a._i});
   var filter="All";
+  // ?show=Wrote (or Shipped, Improved, Fixed) opens the log already filtered, e.g. from the homepage's All Notes.
+  var want=(location.search.match(/[?&]show=([A-Za-z]+)/)||[])[1];
+  if(want&&TAGS.indexOf(want)>=0)filter=want;
   function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
   function day(d){var p=d.split("-");return (+p[2])+" "+MONTHS[+p[1]-1].slice(0,3).toUpperCase()}
 

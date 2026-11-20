@@ -35,15 +35,6 @@ h1,h2,h3,p{margin:0}
 .skip:focus{left:16px;top:16px;background:var(--accent);color:var(--bg);padding:12px 16px;border-radius:10px;z-index:10}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
-/* header */
-.top{border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-top:14px;padding-bottom:14px}
-.mark{font-family:var(--mono);font-weight:500;font-size:18px;letter-spacing:2px;color:var(--accent);padding:12px 0}
-.top nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 28px;font-size:16px}
-.top nav a{color:var(--body);padding:12px 0}
-.top nav a.pill{color:var(--text);border:1px solid var(--quiet-line);border-radius:999px;padding:9px 16px;font-weight:500}
-.top nav a.pill:hover{border-color:var(--accent);color:var(--accent)}
-
 /* shared */
 .label{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--muted);margin-bottom:10px}
 .label.accent{color:var(--accent)}
@@ -156,29 +147,18 @@ html:not(.js) .nojs-title{display:block}
 #subscribe{padding:48px 0}
 #subscribe h2{margin-bottom:8px}
 
-.foot{border-top:1px solid var(--line)}
-.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-top:28px;padding-bottom:40px;font-size:14px;color:var(--muted)}
-.foot nav{display:flex;flex-wrap:wrap;gap:20px}
-.foot nav a{color:var(--accent)}
 .mono{font-family:var(--mono)}
 </style>
 <script>document.documentElement.className="js"</script>
+<!-- build:chromecss -->
+<!-- /build:chromecss -->
 </head>
 <body>
+<!-- build:header -->
+<a href="/">RK</a>
+<!-- /build:header -->
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="top">
-  <div class="wrap">
-    <a class="mark" href="/" aria-label="RK, home">RK</a>
-    <nav aria-label="Main">
-      <a href="#work">Projects</a>
-      <a href="#learn">Learn about AI</a>
-      <a href="#notes">Notes</a>
-      <a href="#about">About</a>
-      <a class="pill" href="#ask">Ask this site</a>
-    </nav>
-  </div>
-</header>
 
 <main id="main">
 <div class="wrap">
@@ -252,7 +232,7 @@ html:not(.js) .nojs-title{display:block}
         <li><p class="when">NOV 2026 &middot; LEARNING LOG</p><a href="https://lnkd.in/p/erqigS6D" rel="noopener">Physical AI: what I studied, tested and still don't understand</a></li>
         <li><p class="when">OCT 2026 &middot; SERIES</p><a href="https://lnkd.in/p/eXDbPhWd" rel="noopener">Building a personal AI assistant in ten days</a></li>
       </ul>
-      <div class="after"><a class="btn quiet" href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7528134916136607746" rel="noopener">All Notes</a></div>
+      <div class="after"><a class="btn quiet" href="/shipped/?show=Wrote">All Notes</a></div>
     </div>
   </div>
 </section>
@@ -303,16 +283,8 @@ html:not(.js) .nojs-title{display:block}
 </div>
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <span>Radhakrishna Kamaraju &middot; <span class="mono">buildwithRKAI</span></span>
-    <nav aria-label="Elsewhere">
-      <a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/radhakrishna-kamaraju" rel="noopener">GitHub</a>
-      <a href="mailto:hello@radhakrishnakamaraju.com">Email</a>
-    </nav>
-  </div>
-</footer>
+<!-- build:footer -->
+<!-- /build:footer -->
 
 <script>
 // Start Here tabs. Without JavaScript every panel is shown, one after another.

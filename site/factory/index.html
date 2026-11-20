@@ -92,10 +92,14 @@ a{color:var(--cyan)}
 @media (max-width:980px){.main{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}footer{grid-template-columns:minmax(0,1fr)}.stage{aspect-ratio:4/3}}
 @media (max-width:520px){.hint{display:none}.tag[aria-pressed="false"]{display:none!important}.tag{font-size:11px;padding:3px 7px}.stage{aspect-ratio:1/1}}
 </style>
+<!-- build:chromecss -->
+<!-- /build:chromecss -->
 </head>
 <body>
+<!-- build:header -->
+<a href="/">RK</a>
+<!-- /build:header -->
 <div class="wrap">
-  <header class="top"><a class="mark" href="../" aria-label="RK, back to home">RK</a><nav aria-label="Main"><a href="../">&larr; Back to the site</a></nav></header>
   <div class="intro">
     <div>
       <p class="eyebrow">Interactive explainer</p>
@@ -177,6 +181,8 @@ a{color:var(--cyan)}
     </div>
   </footer>
 </div>
+<!-- build:footer -->
+<!-- /build:footer -->
 
 <script src="three.min.js"></script>
 <script>
