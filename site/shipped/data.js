@@ -68,4 +68,28 @@ window.SHIPPED = [
   { date: "2026-11-16", tag: "Shipped", title: "Agent Caseback", project: "agent-caseback",
     text: "A recorded run of two AI agents assessing one project's health, replayed step by step. One agent does the work, a second audits it, and the status moves from a reported green to a signed-off red in three rounds. The reports are invented and the agent outputs are real.",
     link: "https://radhakrishnakamaraju.com/agents/", linkText: "Watch the run" },
+
+  { date: "2026-11-10", tag: "Wrote", title: "Physical AI: what I studied, tested and still don't understand",
+    text: "A learning log written in public: what I studied about Physical AI, what I tried for myself, and the questions I still can't answer.",
+    link: "https://lnkd.in/p/erqigS6D", linkText: "Read the log" },
+
+  { date: "2026-11-16", tag: "Improved", title: "Industrial AI Index v2", project: "industrial-ai-index",
+    text: "The report is now benchmarked against the five-level maturity scale only, and the scoring changed so the lowest answers give 0%.",
+    link: "https://industrial-ai.radhakrishnakamaraju.com", linkText: "Try it" },
+
+  { date: "2026-11-16", tag: "Wrote", title: "buildwithRKAI, edition 1: Why I stopped collecting AI courses and started building",
+    text: "The first edition of my fortnightly newsletter: why I stopped collecting courses and started building in public.",
+    link: "https://www.linkedin.com/pulse/edition-1-why-i-stopped-collecting-ai-courses-started-kamaraju-msjpc", linkText: "Read edition 1" },
+
+  { date: "2026-11-20", tag: "Improved", title: "This site, redesigned",
+    text: "A Start Here path for each kind of visitor, three featured projects, an About page, and one header and footer on every page. Project cards and pages are built from a single data file, so adding a project updates every page.",
+    link: "https://radhakrishnakamaraju.com/", linkText: "See the homepage" },
+
+  { date: "2026-11-20", tag: "Shipped", title: "Clawdia's architecture, interactive", project: "clawdia",
+    text: "Follow one message from Telegram to two agents and back. Select any part to see what it does, why it is set up that way, and what broke, with a link to that day's post.",
+    link: "https://radhakrishnakamaraju.com/projects/clawdia/architecture/", linkText: "Explore it" },
+
+  { date: "2026-11-20", tag: "Shipped", title: "Projects index",
+    text: "Every project in one place, newest first, filterable by who it is for, what kind it is and whether it is live.",
+    link: "https://radhakrishnakamaraju.com/projects/", linkText: "See all projects" },
 ];
