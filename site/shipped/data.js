@@ -3,16 +3,17 @@
 // Wrote (a series, case study or post about the work). Personal projects only.
 // To add an entry: copy one at the end of the list, change it, push to main. The page sorts by date;
 // entries on the same day show the one lower in this file first, so add new entries at the end.
+// project: the slug from projects/data.js, when the entry belongs to a project.
 // Used by /shipped/, the homepage strip, and scripts/build-knowledge.js (the "Ask this site" assistant).
 window.SHIPPED = [
-  { date: "2026-04-24", tag: "Shipped", title: "Industrial AI Index, first version",
+  { date: "2026-04-24", tag: "Shipped", title: "Industrial AI Index, first version", project: "industrial-ai-index",
     text: "An AI readiness assessment for manufacturers, built as a demo for an industrial trade fair and hosted on Netlify.",
     link: "https://industrial-ai.radhakrishnakamaraju.com", linkText: "Try today's version" },
 
-  { date: "2026-11-02", tag: "Shipped", title: "Clawdia",
+  { date: "2026-11-02", tag: "Shipped", title: "Clawdia", project: "clawdia",
     text: "My personal AI assistant, built on OpenClaw. Self-hosted on my own server, reachable on Telegram, with its own mailbox instead of my personal one. First worked end to end today." },
 
-  { date: "2026-11-02", tag: "Wrote", title: "Building a personal AI assistant in ten days",
+  { date: "2026-11-02", tag: "Wrote", title: "Building a personal AI assistant in ten days", project: "clawdia",
     text: "Finished a 10-part LinkedIn series documenting the Clawdia build, one post a day.",
     link: "https://www.linkedin.com/feed/update/urn:li:activity:7519738649542856704/", linkText: "Read the series" },
 
@@ -20,7 +21,7 @@ window.SHIPPED = [
     text: "My own domain on one VPS: each app in its own container behind Traefik, HTTPS certificates issued automatically, deployed by git push.",
     link: "https://github.com/radhakrishna-kamaraju/rk-site", linkText: "See the code" },
 
-  { date: "2026-11-12", tag: "Improved", title: "Industrial AI Index moved to my own server",
+  { date: "2026-11-12", tag: "Improved", title: "Industrial AI Index moved to my own server", project: "industrial-ai-index",
     text: "Rebranded, with the prompt built on the server so the API key can only produce this one report, and capped at 3 reports per visitor per hour and 10 per day.",
     link: "https://github.com/radhakrishna-kamaraju/industrial-ai-index", linkText: "Read the case study" },
 
@@ -36,12 +37,12 @@ window.SHIPPED = [
     text: "A one-page résumé written in HTML, rendered to PDF by Playwright, and versioned in git like everything else.",
     link: "https://radhakrishnakamaraju.com/Radhakrishna-Kamaraju-Resume.pdf", linkText: "Open the PDF" },
 
-  { date: "2026-11-13", tag: "Shipped", title: "AI Upskilling Planner",
+  { date: "2026-11-13", tag: "Shipped", title: "AI Upskilling Planner", project: "ai-upskilling-planner",
     text: "A free 8-week AI plan for busy IT professionals, across six role tracks. It runs entirely in the browser: no sign-up, nothing sent to a server.",
     link: "https://radhakrishnakamaraju.com/upskill/", linkText: "Build your plan" },
 
 
-  { date: "2026-11-13", tag: "Fixed", title: "The planner could show a blank result",
+  { date: "2026-11-13", tag: "Fixed", title: "The planner could show a blank result", project: "ai-upskilling-planner",
     text: "When a browser refused to update the address bar, the error stopped the plan from rendering. That update is now optional, so the plan always appears.",
     link: "https://github.com/radhakrishna-kamaraju/rk-site#what-broke-and-whats-next", linkText: "The full story" },
 
@@ -60,11 +61,11 @@ window.SHIPPED = [
     text: "Every deploy of this site now generates the assistant's knowledge file from the real pages, so a new page reaches it with no manual update.",
     link: "https://github.com/radhakrishna-kamaraju/rk-site/blob/main/scripts/build-knowledge.js", linkText: "See the script" },
 
-  { date: "2026-11-16", tag: "Shipped", title: "Smart Factory Line",
+  { date: "2026-11-16", tag: "Shipped", title: "Smart Factory Line", project: "smart-factory-line",
     text: "An interactive 3D production line with five stations. Raise the AI maturity level and each station switches over, with what it needs, a typical result and where it fails. It runs entirely in the browser.",
     link: "https://radhakrishnakamaraju.com/factory/", linkText: "Walk the line" },
 
-  { date: "2026-11-16", tag: "Shipped", title: "Agent Caseback",
+  { date: "2026-11-16", tag: "Shipped", title: "Agent Caseback", project: "agent-caseback",
     text: "A recorded run of two AI agents assessing one project's health, replayed step by step. One agent does the work, a second audits it, and the status moves from a reported green to a signed-off red in three rounds. The reports are invented and the agent outputs are real.",
     link: "https://radhakrishnakamaraju.com/agents/", linkText: "Watch the run" },
 ];
