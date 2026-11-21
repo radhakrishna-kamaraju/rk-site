@@ -1,6 +1,8 @@
 # Stage 1: build step on a copy of the site.
 #  - build-pages.js fills the data-driven parts of the pages (project cards, the
 #    shipped strip) with real HTML from projects/data.js and shipped/data.js.
+#  - build-seo.js writes sitemap.xml and llms.txt, and adds canonical, Open Graph
+#    and structured-data tags to every page's <head>.
 #  - build-knowledge.js generates knowledge-site.md, read by the rk-assistant
 #    "Ask this site" agent, from the real page content.
 # Every deploy refreshes both, so nothing can drift.
@@ -9,6 +11,7 @@ WORKDIR /build
 COPY scripts scripts
 COPY site site
 RUN node scripts/build-pages.js site \
+ && node scripts/build-seo.js site \
  && node scripts/build-knowledge.js site /out/knowledge-site.md
 
 FROM caddy:2-alpine

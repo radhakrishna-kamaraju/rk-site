@@ -79,11 +79,16 @@ An 8-week AI plan for busy IT professionals. Answer six short questions (role, t
 - `site/fonts/`: self-hosted Space Grotesk and IBM Plex Mono.
 - `site/Radhakrishna-Kamaraju-Resume.pdf`: the public résumé, generated from `resume/resume.html`.
 - `scripts/build-knowledge.js`: run by the Docker build; writes `/knowledge-site.md` from the real page content. When you add a page or tool, add it to this script.
+- `scripts/build-seo.js`: run by the Docker build; writes `/sitemap.xml` and `/llms.txt`, and adds canonical, Open Graph and structured-data (JSON-LD `Person`) tags to every page. Who I am (job title, profiles for `sameAs`) is defined once at the top of this script.
+- `site/robots.txt`: allows search engines and AI crawlers, training crawlers included, and points to the sitemap.
+- `scripts/indexnow.sh` and `site/<key>.txt`: tell Bing and the other IndexNow engines about changes right after a deploy.
 - `Dockerfile`, `Caddyfile`, `docker-compose.yml`: the container and its Traefik labels.
 
 ## Deploy
 
 Push to `main`. A cron job on the VPS pulls every 5 minutes and rebuilds the container only when something changed.
+
+After a rebuild, the cron job should also run `sh scripts/indexnow.sh`, so Bing hears about the change within minutes.
 
 ## Run locally
 

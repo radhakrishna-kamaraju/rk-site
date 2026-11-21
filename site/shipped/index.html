@@ -90,12 +90,14 @@ h1,h2,h3,p{margin:0}
   <p class="label accent">SHIPPED &middot; A DATED LOG</p>
   <h1>What I've built, <span>with dates.</span></h1>
   <p class="lead">Everything here went live and you can use or check it: what I shipped, what I improved, what broke and how I fixed it, and what I wrote about it. Newest first.</p>
-  <div class="tally" id="tally" aria-label="Totals by type"></div>
+  <div class="tally" id="tally" aria-label="Totals by type"><!-- build:shippedtally --><!-- /build:shippedtally --></div>
 </div>
 
 <div class="filters" role="group" aria-label="Show entries by type" id="filters"></div>
-<div id="list" aria-live="polite"></div>
-<noscript><p class="lead">This log needs JavaScript to display. The code and case studies are on <a href="https://github.com/radhakrishna-kamaraju">GitHub</a>.</p></noscript>
+<div id="list" aria-live="polite">
+<!-- build:shippedlog -->
+<!-- /build:shippedlog -->
+</div>
 
 <p class="fine">Personal projects only. Client and employer work stays private.</p>
 </main>
@@ -117,7 +119,9 @@ h1,h2,h3,p{margin:0}
   function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
   function day(d){var p=d.split("-");return (+p[2])+" "+MONTHS[+p[1]-1].slice(0,3).toUpperCase()}
 
-  var tally=document.getElementById("tally");
+  // The tally and the list are already in the HTML (built from data.js at deploy, so crawlers
+  // and no-JS visitors see them); the script redraws both so the filters work.
+  var tally=document.getElementById("tally");tally.textContent="";
   TAGS.forEach(function(t){
     var n=all.filter(function(e){return e.tag===t}).length;
     var d=el("div");d.appendChild(el("b",null,String(n)));d.appendChild(el("span",null,t.toUpperCase()));tally.appendChild(d);

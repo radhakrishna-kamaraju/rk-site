@@ -1,0 +1,33 @@
+# robots.txt for radhakrishnakamaraju.com
+# Everything on this site is public and may be crawled, indexed, cited and used for training.
+# The named groups below say so explicitly for the main search engines and AI crawlers;
+# the last group covers everyone else.
+
+# Search engines
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: DuckDuckBot
+User-agent: Applebot
+Allow: /
+
+# AI search and answer engines (fetch pages to cite them in answers)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Allow: /
+
+# AI training crawlers
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://radhakrishnakamaraju.com/sitemap.xml

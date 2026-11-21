@@ -122,6 +122,35 @@ function allProjectsButton() {
     : '';
 }
 
+// The full Shipped log for /shipped/, in the same markup the page's script draws,
+// so crawlers and no-JS visitors get every entry. The script redraws it for the filters.
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const TAGS = ['Shipped', 'Improved', 'Fixed', 'Wrote'];
+
+function shippedTally() {
+  return TAGS.map((t) => `<div><b>${LOG.filter((e) => e.tag === t).length}</b><span>${t.toUpperCase()}</span></div>`).join('');
+}
+
+function shippedLog() {
+  const out = [];
+  let cur = '';
+  for (const e of LOG) {
+    const p = e.date.split('-');
+    const key = `${p[0]}-${p[1]}`;
+    if (key !== cur) {
+      if (cur) out.push('</ol>\n</section>');
+      cur = key;
+      out.push(`<section class="month">\n<h2>${MONTHS[+p[1] - 1].toUpperCase()} ${p[0]}</h2>\n<ol class="log">`);
+    }
+    const own = e.link && /^https?:/.test(e.link) && e.link.indexOf('radhakrishnakamaraju.com') < 0;
+    const link = e.link ? `\n<a href="${esc(e.link)}"${own ? ' rel="noopener"' : ''}>${esc(e.linkText || 'Open')} →</a>` : '';
+    out.push(`<li class="entry"><time class="when" datetime="${e.date}">${+p[2]} ${M[+p[1] - 1]}</time><div class="main"><div class="line"><span class="tag ${esc(e.tag)}">${esc(e.tag)}</span><h3>${esc(e.title)}</h3></div>
+<p>${esc(e.text)}</p>${link}</div></li>`);
+  }
+  if (cur) out.push('</ol>\n</section>');
+  return out.join('\n');
+}
+
 function recentlyShipped() {
   return '<ul class="list">\n' + LOG.slice(0, 3).map((e) =>
     `<li><p class="when">${day(e.date)} · ${esc(e.tag.toUpperCase())}</p><a href="/shipped/">${esc(e.title)}</a></li>`).join('\n') + '\n</ul>';
@@ -516,7 +545,7 @@ fill('index.html', {
   ...chrome('home'), stats, start: startHere, featured, more: moreProjects, allprojects: allProjectsButton, shipped: recentlyShipped,
 });
 fill('about/index.html', chrome('about'));
-fill('shipped/index.html', chrome('shipped'));
+fill('shipped/index.html', { ...chrome('shipped'), shippedtally: shippedTally, shippedlog: shippedLog });
 fill('upskill/index.html', chrome('learn'));
 fill('factory/index.html', chrome('projects'));
 fill('agents/index.html', chrome('projects'));
