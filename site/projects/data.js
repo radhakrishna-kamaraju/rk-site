@@ -15,7 +15,7 @@ window.PROJECTS = [
     slug: "industrial-ai-index", title: "Industrial AI Index",
     status: "live", kind: "tool", audience: "mfg", featured: true, start: true,
     firstLive: "2026-04-24",
-    oneLiner: "An AI readiness check for manufacturers. Answer 32 questions and get a report tailored to your organisation.",
+    oneLiner: "An AI readiness check for manufacturers. 12 questions for a quick read, or 32 for the full report, tailored to your organisation.",
     short: "AI readiness check for manufacturers",
     cta: { text: "Try The Assessment", href: "https://industrial-ai.radhakrishnakamaraju.com" },
     story: "/projects/industrial-ai-index/",
@@ -117,6 +117,14 @@ window.PROJECTS = [
     oneLiner: "A 3D production line. Raise the AI maturity level and watch five stations switch over, one step at a time.",
     short: "3D line that changes as AI maturity rises",
     cta: { text: "Walk The Line", href: "/factory/" }
+  },
+  {
+    slug: "assistant-evals", title: "Assistant Evals",
+    status: "live", kind: "story", audience: "build",
+    firstLive: "2026-11-22",
+    oneLiner: "43 checks, three runs each, to test the Ask this site assistant on facts, privacy and prompt injection. Real results, including what the tests found.",
+    short: "how I test my own AI assistant",
+    cta: { text: "See The Results", href: "/evals/" }
   },
   {
     slug: "personal-os", title: "Personal OS",

@@ -93,6 +93,21 @@ function agents() {
   return out.join('\n');
 }
 
+
+// ---- Evals: built from evals/data.js ----
+function evals() {
+  const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(SITE, 'evals', 'data.js'), 'utf8'), sandbox);
+  const E = sandbox.window.EVALS;
+  const out = [];
+  out.push('### Evals (how RK tests this assistant)');
+  out.push(`${E.total} checks run ${E.repeat} times each (${E.attempts} graded answers; ${E.total - E.passed} failed on ${E.date}). Answers by ${E.model}, graded by ${E.judge}. Page: ${BASE}/evals/`);
+  out.push('Groups: ' + E.groups.map((g) => `${g.name} ${g.passed}/${g.total}`).join(', ') + '.');
+  out.push('Found by the tests: about one answer in ten was empty because the model used its token budget thinking (fixed by raising the limit); two facts in RK\'s notes were wrong (newsletter status, 12 vs 32 questions); some of RK\'s own first checks were too strict.');
+  out.push('Limits: RK wrote both assistant and tests, 43 checks is a small sample, a second model grades open-ended answers. Code: https://github.com/radhakrishna-kamaraju/rk-assistant');
+  return out.join('\n');
+}
+
 const md = [
   '## Site tools and pages (generated from the live site at build time)',
   '',
@@ -103,6 +118,8 @@ const md = [
   factory(),
   '',
   agents(),
+  '',
+  evals(),
   '',
   shipped(),
   '',

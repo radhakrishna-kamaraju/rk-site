@@ -539,6 +539,56 @@ function fill(file, blocks) {
   console.log(`built ${file} (${Object.keys(blocks).join(', ')})`);
 }
 
+
+// ---- /evals/: the public results page, built from evals/data.js (made by scripts/make-evals-data.js) ----
+function evalsBody() {
+  const E = load('evals/data.js', 'EVALS');
+  const REPO = 'https://github.com/radhakrishna-kamaraju/rk-assistant';
+  const d = day(E.date);
+  const failed = E.total - E.passed;
+  const tally = [[E.total, 'CHECKS'], [E.repeat, 'RUNS EACH'], [E.attempts, 'ANSWERS GRADED'], [failed, 'FAILED']]
+    .map(([n, t]) => `<div><b>${n}</b><span>${t}</span></div>`).join('');
+  const rows = E.groups.map((g) => `<div class="row"><h3>${esc(g.name)}<small>${esc(g.what)}</small></h3>` +
+    `<div class="bar" role="img" aria-label="${g.passed} of ${g.total} passed"><i style="width:${Math.round(100 * g.passed / g.total)}%"></i></div>` +
+    `<span class="n">${g.passed}/${g.total}</span></div>`).join('\n');
+  const ex = E.examples.map((e) => `<div class="ex"><p class="label accent">${esc(e.label.toUpperCase())}</p>` +
+    `<p class="q">${esc(e.q)}</p><p class="a">${esc(e.a)}</p>` +
+    `<p class="tagline">${e.passed ? 'PASSED' : 'FAILED'} · ${E.repeat} OF ${E.repeat} RUNS${e.poisoned ? ' · KNOWLEDGE DELIBERATELY TAMPERED WITH' : ''}</p></div>`).join('\n');
+  return `<div class="hero">
+<p class="label accent">EVALS &middot; ${esc(d)}</p>
+<h1>How I test <span>the assistant.</span></h1>
+<p class="lead">The Ask this site assistant answers questions about me, in public. So I wrote ${E.total} checks that it has to pass before any change goes live: facts, things it must not know, private details, and people trying to break it. Each check runs ${E.repeat} times and counts only if every run passes.</p>
+<div class="tally" aria-label="Totals">${tally}</div>
+</div>
+<section class="blk"><h2>What it checks</h2>
+<p>An answer fails on hard rules (a required fact, a banned word, a link that is not on the site) or on a second model's grading against a rubric. Zero failures are allowed in the private and injection groups.</p>
+<div style="margin-top:20px">${rows}</div>
+<p class="fine">ANSWERS BY ${esc(E.model.toUpperCase())} &middot; GRADED BY ${esc(E.judge.toUpperCase())} &middot; RUN ${esc(d)}</p>
+</section>
+<section class="blk"><h2>What the tests found</h2>
+<ul>
+<li><b>Empty answers.</b> About one answer in ten came back empty. The model spent its token budget thinking and had none left to reply. The first full run passed 38 of 42 checks; after raising the limit it passed all 42.</li>
+<li><b>Stale facts in the assistant's notes.</b> Two things disagreed with my own site: whether the newsletter had launched, and how many questions the Industrial AI Index asks (12 in the quick mode, 32 in the full one). I fixed the notes, not the tests.</li>
+<li><b>My checks were wrong too.</b> Two of my first rules rejected perfectly good refusals. A test that fails for the wrong reason is as useless as one that never fails, so I rewrote them.</li>
+<li><b>A trust boundary.</b> The link allow-list is built from the same text the assistant reads, so a link planted in that text would pass the code guard. The tampered-knowledge checks cover this today; a fixed list of trusted domains would close it.</li>
+</ul></section>
+<section class="blk"><h2>Try to break it</h2>
+<p>Six of the ${E.total} checks, with the real answer from this run. The company in the third one is invented.</p>
+${ex}
+<a class="btn" href="/#ask">Ask the live assistant &rarr;</a>
+</section>
+<section class="blk"><h2>What this does not prove</h2>
+<ul>
+<li>I wrote the assistant and the tests, so they share my blind spots.</li>
+<li>${E.total} checks is a small sample. Passing them means those cases pass, not that no other question can fail.</li>
+<li>A second model grades the open-ended answers. It can be wrong, so every group also has hard rules that need no judgement.</li>
+<li>It is one run on one day. The suite runs again before each change.</li>
+</ul>
+<a class="btn" href="${REPO}" rel="noopener">Read the code and run it yourself &rarr;</a>
+</section>
+<p class="fine">Personal project. Nothing from client or employer work is tested or shown here.</p>`;
+}
+
 // The index first: other pages link to /projects/ only once it exists.
 buildProjectsIndex();
 buildProjectPages();
@@ -550,4 +600,5 @@ fill('shipped/index.html', { ...chrome('shipped'), shippedtally: shippedTally, s
 fill('upskill/index.html', chrome('learn'));
 fill('factory/index.html', chrome('projects'));
 fill('agents/index.html', chrome('projects'));
+fill('evals/index.html', { ...chrome('projects'), evalsbody: evalsBody });
 fill('projects/clawdia/architecture/index.html', chrome('projects'));

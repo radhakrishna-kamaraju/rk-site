@@ -92,4 +92,8 @@ window.SHIPPED = [
   { date: "2026-11-20", tag: "Shipped", title: "Projects index",
     text: "Every project in one place, newest first, filterable by who it is for, what kind it is and whether it is live.",
     link: "https://radhakrishnakamaraju.com/projects/", linkText: "See all projects" },
+
+  { date: "2026-11-22", tag: "Shipped", title: "Evals for the Ask this site assistant", project: "assistant-evals",
+    text: "43 checks, each run three times, covering facts, unknowns, private details and prompt injection. All 129 graded answers passed. The tests also found a real bug: about one answer in ten came back empty.",
+    link: "https://radhakrishnakamaraju.com/evals/", linkText: "See the results" },
 ];
