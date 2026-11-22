@@ -209,8 +209,9 @@ function footer() {
 <div class="sh-in">
 <span>Radhakrishna Kamaraju &middot; <span class="sh-mono">buildwithRKAI</span></span>
 <div class="sh-links" role="navigation" aria-label="Elsewhere">
-<a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="noopener">LinkedIn</a>
-<a href="https://github.com/radhakrishna-kamaraju" rel="noopener">GitHub</a>
+<a href="https://www.linkedin.com/in/radhakrishna-kamaraju/" rel="me noopener">LinkedIn</a>
+<a href="https://github.com/radhakrishna-kamaraju" rel="me noopener">GitHub</a>
+<a href="https://x.com/buildwithrkai" rel="me noopener">X</a>
 <a href="${NEWSLETTER}" rel="noopener">Newsletter</a>
 <a href="mailto:hello@radhakrishnakamaraju.com">Email</a>
 </div>

@@ -9,11 +9,23 @@ services:
       - traefik.enable=true
       - traefik.http.services.rk-site.loadbalancer.server.port=80
       # HTTPS
-      - traefik.http.routers.rk-site.rule=Host(`radhakrishnakamaraju.com`) || Host(`www.radhakrishnakamaraju.com`)
+      - traefik.http.routers.rk-site.rule=Host(`radhakrishnakamaraju.com`)
       - traefik.http.routers.rk-site.entrypoints=websecure
       - traefik.http.routers.rk-site.tls.certresolver=letsencrypt
+      - traefik.http.routers.rk-site.service=rk-site
+      # www -> main address, permanent (301), keeping the path. One address for search engines.
+      # ($$ is how docker compose writes a literal $.)
+      - traefik.http.routers.rk-site-www.rule=Host(`www.radhakrishnakamaraju.com`)
+      - traefik.http.routers.rk-site-www.entrypoints=websecure
+      - traefik.http.routers.rk-site-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.rk-site-www.service=rk-site
+      - traefik.http.routers.rk-site-www.middlewares=rk-site-www-redirect
+      - traefik.http.middlewares.rk-site-www-redirect.redirectregex.regex=^https?://www\.radhakrishnakamaraju\.com/(.*)
+      - traefik.http.middlewares.rk-site-www-redirect.redirectregex.replacement=https://radhakrishnakamaraju.com/$${1}
+      - traefik.http.middlewares.rk-site-www-redirect.redirectregex.permanent=true
       # HTTP -> HTTPS redirect
       - traefik.http.routers.rk-site-http.rule=Host(`radhakrishnakamaraju.com`) || Host(`www.radhakrishnakamaraju.com`)
       - traefik.http.routers.rk-site-http.entrypoints=web
       - traefik.http.routers.rk-site-http.middlewares=rk-site-https
+      - traefik.http.routers.rk-site-http.service=rk-site
       - traefik.http.middlewares.rk-site-https.redirectscheme.scheme=https
